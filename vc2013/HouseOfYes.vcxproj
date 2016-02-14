@@ -216,6 +216,8 @@
     <Image Include="..\assets\Images\HOYSplineMask.jpg" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\src\Blank.cpp" />
+    <ClCompile Include="..\src\Cue.cpp" />
     <ClCompile Include="..\src\HouseOfYesApp.cpp" />
     <ClCompile Include="..\..\Cinder\blocks\Cinder-KCB2\src\Kinect2.cpp" />
     <ClCompile Include="..\..\Cinder\blocks\Cinder-WMFVideo\src\ciWMFVideoPlayer.cpp" />
@@ -225,6 +227,8 @@
     <ClCompile Include="..\..\Cinder\blocks\Cinder-WMFVideo\src\presenter\PresenterHelpers.cpp" />
     <ClCompile Include="..\..\Cinder\blocks\Cinder-WMFVideo\src\presenter\scheduler.cpp" />
     <ClCompile Include="..\..\Cinder\blocks\OSC\src\Osc.cpp" />
+    <ClCompile Include="..\src\Nightlife.cpp" />
+    <ClCompile Include="..\src\OscController.cpp" />
     <ClCompile Include="..\src\ParticleSystem.cpp" />
     <ClCompile Include="..\src\PingPongFBO.cpp" />
   </ItemGroup>
@@ -255,6 +259,10 @@
     <ClInclude Include="..\..\Cinder\blocks\Cinder-WMFVideo\src\presenter\common\TinyMap.h" />
     <ClInclude Include="..\..\Cinder\blocks\Cinder-WMFVideo\src\presenter\common\trace.h" />
     <ClInclude Include="..\..\Cinder\blocks\OSC\src\Osc.h" />
+    <ClInclude Include="..\src\Blank.h" />
+    <ClInclude Include="..\src\Cue.h" />
+    <ClInclude Include="..\src\Nightlife.h" />
+    <ClInclude Include="..\src\OscController.h" />
     <ClInclude Include="..\src\ParticleSystem.h" />
     <ClInclude Include="..\src\PingPongFBO.h" />
   </ItemGroup>

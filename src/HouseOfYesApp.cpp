@@ -2,6 +2,9 @@
 #include "cinder/app/RendererGl.h"
 #include "cinder/gl/gl.h"
 
+#include "Blank.h"
+#include "Nightlife.h"
+#include "OscController.h"
 #include "ParticleSystem.h"
 #include "PingPongFBO.h"
 
@@ -14,44 +17,27 @@ class HouseOfYesApp : public App {
 	void setup() override;
 	void mouseDown( MouseEvent event ) override;
 	void update() override;
-	void updateFBO();
 	void draw() override;
 
 private:
-	ParticleSystem mParticleSystem;
+	std::shared_ptr<OscController> mOscController;
 
-	gl::FboRef mParticleRender;
-	PingPongFBO mPingPongFBO;
-
-	gl::GlslProgRef mFadeShader;
+	std::map<std::string, std::shared_ptr<Cue>> mCues;
+	std::shared_ptr<Cue> mCurrentCue;
 
 	gl::TextureRef mTexture;
-
 };
 
 void HouseOfYesApp::setup()
 {
-	gl::Texture2d::Format texFmt;
-	texFmt.setInternalFormat(GL_RGBA16F);
-	texFmt.setDataType(GL_FLOAT);
-	texFmt.setTarget(GL_TEXTURE_2D);
-	texFmt.setWrap(GL_CLAMP_TO_EDGE, GL_CLAMP_TO_EDGE);
-	texFmt.enableMipmapping(false);
-	gl::Fbo::Format fmt;
-	fmt.disableDepth()
-		.setColorTextureFormat(texFmt);
+	mOscController = std::shared_ptr<OscController>();
 
-	gl::GlslProg::Format shaderFmt;
-	shaderFmt.vertex(app::loadAsset("Shaders/passthru.vert"))
-		.fragment(app::loadAsset("Shaders/fade.frag"));
-	mFadeShader = gl::GlslProg::create(shaderFmt);
-	mFadeShader->uniform("i_resolution", (vec2) getWindowSize());
-
-	mParticleRender = gl::Fbo::create(getWindowSize().x, getWindowSize().y, fmt);
-	mPingPongFBO = PingPongFBO(fmt, ivec2(getWindowSize().x, getWindowSize().y) , 2);
+	mCues.insert(make_pair("Blank", std::make_shared<Blank>()));
+	mCues.insert(make_pair("Nightlife", std::make_shared<Nightlife>()));
+	mCurrentCue = mCues["Nightlife"];
 
 	// HoY image
-	mTexture = gl::Texture::create(loadImage(loadAsset("Images/HOYSplineMask.jpg")));
+	mTexture = gl::Texture::create(loadImage(loadAsset("Images/HOYSplineMask.png")));
 }
 
 void HouseOfYesApp::mouseDown( MouseEvent event )
@@ -60,44 +46,23 @@ void HouseOfYesApp::mouseDown( MouseEvent event )
 
 void HouseOfYesApp::update()
 {
-	mParticleSystem.update();
-
-	gl::ScopedFramebuffer fbo(mParticleRender);
-	gl::clear(Color(0, 0, 0));
-	mParticleSystem.draw();
-}
-
-void HouseOfYesApp::updateFBO()
-{
-	gl::ScopedTextureBind prev(mParticleRender->getColorTexture(), 0);
-	mFadeShader->uniform("tex_current", 0);
-
-	gl::ScopedTextureBind current(mPingPongFBO.getTexture(), 1);
-	mFadeShader->uniform("tex_prev", 1);
-
-	mPingPongFBO.render(mFadeShader);
+	mCurrentCue->update();
 }
 
 void HouseOfYesApp::draw()
 {
-	updateFBO();
+	gl::clear(Color(0, 0, 0));
 
 	gl::enableAlphaBlending(true);
 
-	gl::clear(Color(0, 0, 0));
+	// Then draw our cue
+	mCurrentCue->draw();
 
 	// First draw HoY Spline
-
 	gl::pushMatrices();
 	gl::setMatricesWindow(getWindowSize());
 	Rectf destRect = Rectf( mTexture->getBounds() ).getCenteredFit( getWindowBounds(), true );
 	gl::draw( mTexture, destRect );
-	gl::popMatrices();
-
-	// Then draw FBO
-	gl::pushMatrices();
-	gl::setMatricesWindow(getWindowSize());
-	gl::draw(mPingPongFBO.getTexture());
 	gl::popMatrices();
 }
 

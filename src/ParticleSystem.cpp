@@ -52,20 +52,18 @@ ParticleSystem::ParticleSystem()
 	  mEnableAttractor( true ),
 	  mAnimate( true ),
 	  mReset( false ),
-	  mTime( 0.0f ),
-	  mPrevElapsedSeconds( 0.0f )
+	  mStartTime( 0.0f )
 {
 	mEnableAttractor = true;
 	mAnimate = true;
 	mReset = false;
-	mTime = 0.0f;
-	mPrevElapsedSeconds = 0.0f;
+	mStartTime = app::getElapsedSeconds();
 	mNoiseSize = 16;
 
 	setupNoiseTexture3D();
 	setupShaders();
 	setupBuffers();
-	resetParticleSystem( 0.5f );
+	resetParticleSystem();
 
 	CI_CHECK_GL();
 
@@ -136,7 +134,7 @@ void ParticleSystem::draw()
 
 	if( mReset ) {
 		mReset = false;
-		resetParticleSystem( 0.5f );
+		resetParticleSystem();
 	}
 
 	gl::setMatrices( mCam );
@@ -162,8 +160,9 @@ void ParticleSystem::draw()
 	gl::disableAlphaBlending();
 }
 
-void ParticleSystem::resetParticleSystem( float size )
+void ParticleSystem::resetParticleSystem()
 {
+	float size = 0.5f;
 	vec4 *pos = reinterpret_cast<vec4*>( mPos->map( GL_WRITE_ONLY ) );
 	for( size_t i = 0; i < NUM_PARTICLES; ++i ) {
 		pos[i] = vec4( sfrand() * size, sfrand() * size, sfrand() * size, 1.0f );
@@ -181,12 +180,14 @@ void ParticleSystem::resetParticleSystem( float size )
 		attractorIndex[i] = glm::round(Rand::randFloat());
 	}
 	mAttractorIndex->unmap();
+
+	mStartTime = app::getElapsedSeconds();
 }
 
 void ParticleSystem::updateParticleSystem()
 {
 	mParticleParams.numParticles = NUM_PARTICLES;
-	mParticleParams.time = app::getElapsedSeconds();
+	mParticleParams.time = app::getElapsedSeconds() - mStartTime;
 
 	// Invoke the compute shader to integrate the particles
 	gl::ScopedGlslProg prog( mUpdateProg );

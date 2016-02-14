@@ -87,12 +87,9 @@ class ParticleSystem {
 	void update();
 	void draw();
 	
-	void renderScene( ci::gl::GlslProgRef effect );
 	void setupShaders();
-	void setupTextures();
-	void setupFbos();
 	void setupBuffers();
-	void resetParticleSystem( float size );
+	void resetParticleSystem();
 	void updateParticleSystem();
 	void setupNoiseTexture3D();
 
@@ -118,6 +115,5 @@ class ParticleSystem {
 	bool mEnableAttractor;
 	bool mAnimate;
 	bool mReset;
-	float mTime;
-	float mPrevElapsedSeconds;
+	float mStartTime;
 };
