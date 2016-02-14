@@ -1,3 +1,4 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <Filter Include="Source Files">
@@ -38,6 +39,12 @@
     </Filter>
     <Filter Include="Blocks\OSC\src">
       <UniqueIdentifier>{C2C90985-E4D8-4863-BD8A-4011157B4DC2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shaders">
+      <UniqueIdentifier>{50b7576d-d9b9-44b5-9d32-6df0bf58985d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Images">
+      <UniqueIdentifier>{fd64b51d-699d-4dc7-adae-3df23306292a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -149,9 +156,21 @@
     <ClInclude Include="..\..\Cinder\blocks\OSC\src\Osc.h">
       <Filter>Blocks\OSC\src</Filter>
     </ClInclude>
+    <ClCompile Include="..\src\ParticleSystem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\PingPongFBO.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\Resources.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\ParticleSystem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\PingPongFBO.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -159,5 +178,30 @@
     <ResourceCompile Include="Resources.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\assets\Shaders\particles.comp">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\assets\Shaders\render.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\assets\Shaders\render.vert">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\assets\Shaders\passthru.vert">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\assets\Shaders\fade.frag">
+      <Filter>Shaders</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\assets\Images\HOYSplineMask.jpg">
+      <Filter>Images</Filter>
+    </Image>
+    <Image Include="..\assets\Images\HOYMasterTexture.png">
+      <Filter>Images</Filter>
+    </Image>
   </ItemGroup>
 </Project>
