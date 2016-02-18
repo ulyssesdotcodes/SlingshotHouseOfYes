@@ -1,10 +1,11 @@
 #include "Nightlife.h"
 
 #include "cinder/app/App.h"
+#include "cinder/ObjLoader.h"
 
 using namespace ci;
 
-Nightlife::Nightlife()
+Nightlife::Nightlife(const World& world)
 {
 	gl::Texture2d::Format texFmt;
 	texFmt.setInternalFormat(GL_RGBA16F);
@@ -24,9 +25,16 @@ Nightlife::Nightlife()
 
 	mParticleRender = gl::Fbo::create(app::getWindowSize().x, app::getWindowSize().y, fmt);
 	mPingPongFBO = PingPongFBO(fmt, ivec2(app::getWindowSize().x, app::getWindowSize().y) , 2);
+
+	world.oscController->subscribe("/hoy/cues/nightlife/x/value", [=](const osc::Message message) {
+			mParticleSystem.setStartPositionX(message.getArgFloat(0));
+	});
+	world.oscController->subscribe("/hoy/cues/nightlife/y/value", [=](const osc::Message message) {
+			mParticleSystem.setStartPositionY(message.getArgFloat(0));
+	});
 }
 
-void Nightlife::update()
+void Nightlife::update(const World& world)
 {
 	mParticleSystem.update();
 
@@ -35,9 +43,12 @@ void Nightlife::update()
 	mParticleSystem.draw();
 }
 
-void Nightlife::draw()
+void Nightlife::draw(const World& world)
 {
 	updateFBO();
+
+	gl::enableDepthWrite();
+	gl::enableDepthRead();
 
 	gl::enableAlphaBlending(true);
 
@@ -47,7 +58,7 @@ void Nightlife::draw()
 	gl::popMatrices();
 }
 
-void Nightlife::transitionTo()
+void Nightlife::transitionTo(const World& world)
 {
 	mParticleSystem.resetParticleSystem();
 }

@@ -206,10 +206,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\assets\Shaders\fade.frag" />
+    <None Include="..\assets\Shaders\fire.vert" />
     <None Include="..\assets\Shaders\particles.comp" />
     <None Include="..\assets\Shaders\passthru.vert" />
     <None Include="..\assets\Shaders\render.frag" />
     <None Include="..\assets\Shaders\render.vert" />
+    <None Include="..\src\fire.comp" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="..\assets\Images\HOYMasterTexture.png" />
@@ -265,6 +267,7 @@
     <ClInclude Include="..\src\OscController.h" />
     <ClInclude Include="..\src\ParticleSystem.h" />
     <ClInclude Include="..\src\PingPongFBO.h" />
+    <ClInclude Include="..\src\World.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets" />

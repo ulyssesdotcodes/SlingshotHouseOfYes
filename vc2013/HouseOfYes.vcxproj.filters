@@ -197,6 +197,9 @@
     <ClInclude Include="..\src\OscController.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\World.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Resources.rc">
@@ -217,6 +220,12 @@
       <Filter>Shaders</Filter>
     </None>
     <None Include="..\assets\Shaders\fade.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\src\fire.comp">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\assets\Shaders\fire.vert">
       <Filter>Shaders</Filter>
     </None>
   </ItemGroup>

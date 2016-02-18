@@ -239,3 +239,13 @@ void ParticleSystem::setupNoiseTexture3D()
 	mNoiseTex->update( data.data(), GL_RGBA, tex3dFmt.getDataType(), 0, mNoiseTex->getWidth(),
 		mNoiseTex->getHeight(), mNoiseTex->getDepth() );
 }
+
+void ParticleSystem::setStartPositionX(float x)
+{
+	mParticleParams.start.x = x;
+}
+
+void ParticleSystem::setStartPositionY(float y)
+{
+	mParticleParams.start.y = y;
+}

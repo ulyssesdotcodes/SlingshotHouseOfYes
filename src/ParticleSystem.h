@@ -45,6 +45,8 @@
 #include "cinder/Rand.h"
 #include "cinder/params/Params.h"
 #include "cinder/gl/Ssbo.h"
+#include "cinder/Arcball.h"
+
 
 #define LIGHT_RADIUS	1.5f // Must be at least 1
 
@@ -92,6 +94,8 @@ class ParticleSystem {
 	void resetParticleSystem();
 	void updateParticleSystem();
 	void setupNoiseTexture3D();
+	void setStartPositionX(float x);
+	void setStartPositionY(float y);
 
 	enum { WORK_GROUP_SIZE = 128, NUM_PARTICLES = 1 << 20 };
 	

@@ -4,11 +4,11 @@
 
 using namespace ci;
 
-void Blank::update()
+void Blank::update(const World& world)
 {
 }
 
-void Blank::draw()
+void Blank::draw(const World& world)
 {
 	gl::clear(Color(0, 0, 0));
 }

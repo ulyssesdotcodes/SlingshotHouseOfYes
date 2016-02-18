@@ -4,6 +4,6 @@
 
 class Blank : public Cue {
 public:
-	void update() override;
-	void draw() override;
+	void update(const World& world) override;
+	void draw(const World& world) override;
 };

@@ -19,6 +19,8 @@ class HouseOfYesApp : public App {
 	void update() override;
 	void draw() override;
 
+	void setCue(std::string);
+
 private:
 	std::shared_ptr<OscController> mOscController;
 
@@ -26,18 +28,27 @@ private:
 	std::shared_ptr<Cue> mCurrentCue;
 
 	gl::TextureRef mTexture;
+
+	World mWorld;
 };
 
 void HouseOfYesApp::setup()
 {
-	mOscController = std::shared_ptr<OscController>();
+	mOscController = std::make_shared<OscController>();
+
+	mWorld.oscController = mOscController;
+	mWorld.windowSize = app::getWindowSize();
 
 	mCues.insert(make_pair("Blank", std::make_shared<Blank>()));
-	mCues.insert(make_pair("Nightlife", std::make_shared<Nightlife>()));
-	mCurrentCue = mCues["Nightlife"];
+	mCues.insert(make_pair("Nightlife", std::make_shared<Nightlife>(mWorld)));
+	mCurrentCue = mCues["Blank"];
 
 	// HoY image
 	mTexture = gl::Texture::create(loadImage(loadAsset("Images/HOYSplineMask.png")));
+
+	mOscController->subscribe("/hoy/program", [=](const osc::Message message) {
+		setCue(message.getArgString(0));
+	});
 }
 
 void HouseOfYesApp::mouseDown( MouseEvent event )
@@ -46,24 +57,33 @@ void HouseOfYesApp::mouseDown( MouseEvent event )
 
 void HouseOfYesApp::update()
 {
-	mCurrentCue->update();
+	mCurrentCue->update(mWorld);
 }
 
 void HouseOfYesApp::draw()
 {
+	if(mCurrentCue == nullptr) {
+		return;
+	}
+
 	gl::clear(Color(0, 0, 0));
 
 	gl::enableAlphaBlending(true);
 
-	// Then draw our cue
-	mCurrentCue->draw();
+	mCurrentCue->draw(mWorld);
 
-	// First draw HoY Spline
 	gl::pushMatrices();
 	gl::setMatricesWindow(getWindowSize());
 	Rectf destRect = Rectf( mTexture->getBounds() ).getCenteredFit( getWindowBounds(), true );
 	gl::draw( mTexture, destRect );
 	gl::popMatrices();
+}
+
+void HouseOfYesApp::setCue(std::string name)
+{
+	mCurrentCue->transitionFrom(mWorld);
+	mCurrentCue = mCues[name];
+	mCurrentCue->transitionTo(mWorld);
 }
 
 CINDER_APP( HouseOfYesApp, RendererGl,

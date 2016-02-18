@@ -8,11 +8,11 @@
 
 class Nightlife : public Cue {
 public:
-	Nightlife();
-	void update() override;
-	void draw() override;
+	Nightlife(const World& world);
+	void update(const World& world) override;
+	void draw(const World& world) override;
 
-	void transitionTo() override;
+	void transitionTo(const World& world) override;
 
 private:
 	ParticleSystem mParticleSystem;
