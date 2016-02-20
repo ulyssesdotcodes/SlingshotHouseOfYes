@@ -3,6 +3,7 @@
 #include "cinder/gl/gl.h"
 
 #include "Blank.h"
+#include "FireCue.h"
 #include "Nightlife.h"
 #include "OscController.h"
 #include "ParticleSystem.h"
@@ -41,10 +42,11 @@ void HouseOfYesApp::setup()
 
 	mCues.insert(make_pair("Blank", std::make_shared<Blank>()));
 	mCues.insert(make_pair("Nightlife", std::make_shared<Nightlife>(mWorld)));
+	mCues.insert(make_pair("Fire", std::make_shared<FireCue>(mWorld)));
 	mCurrentCue = mCues["Blank"];
 
 	// HoY image
-	mTexture = gl::Texture::create(loadImage(loadAsset("Images/HOYSplineMask.png")));
+	//mTexture = gl::Texture::create(loadImage(loadAsset("Images/HOYSplineMask.png")));
 
 	mOscController->subscribe("/hoy/program", [=](const osc::Message message) {
 		setCue(message.getArgString(0));
@@ -57,6 +59,8 @@ void HouseOfYesApp::mouseDown( MouseEvent event )
 
 void HouseOfYesApp::update()
 {
+	mWorld.dt = getElapsedSeconds() - mWorld.time;
+	mWorld.time = getElapsedSeconds();
 	mCurrentCue->update(mWorld);
 }
 

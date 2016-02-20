@@ -1,8 +1,8 @@
 #version 330 core
 
-uniform vec2 i_resolution;
-uniform sampler2D tex_pressure;
-uniform sampler2D tex_divergence;
+uniform vec3 i_resolution;
+uniform sampler3D tex_pressure;
+uniform sampler3D tex_divergence;
 
 in float gLayer;
 out vec4 fragColor;

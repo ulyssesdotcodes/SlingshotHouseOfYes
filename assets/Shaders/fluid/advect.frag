@@ -9,9 +9,6 @@ uniform float i_dt;
 in float gLayer;
 out vec4 fragColor;
 
-vec4 inner(vec2 targetPos) {
-}
-
 void main() {
 	vec3 targetPos = vec3(gl_FragCoord.xy, gLayer);
 

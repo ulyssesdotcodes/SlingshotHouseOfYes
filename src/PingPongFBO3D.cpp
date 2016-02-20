@@ -21,21 +21,19 @@ PingPongFBO3D::PingPongFBO3D(ci::gl::Fbo::Format fmt, ci::ivec3 size, int buffer
 	}
 }
 
-ci::gl::Texture3dRef PingPongFBO3D::getTexture()
+ci::gl::TextureBaseRef PingPongFBO3D::getTexture()
 {
-	return ci::gl::Texture3dRef();
+	return mFBOs.at(mIteration % mFBOs.size())->getTextureBase(GL_COLOR_ATTACHMENT0);
 }
 
-std::vector<ci::gl::Texture3dRef> PingPongFBO3D::getTextures()
+Area PingPongFBO3D::getBounds()
 {
-	return std::vector<ci::gl::Texture3dRef>();
+	return mFBOs.at(mIteration % mFBOs.size())->getTextureBase(GL_COLOR_ATTACHMENT0)->getBounds();
 }
 
 void PingPongFBO3D::render(ci::gl::GlslProgRef shader)
 {
 	gl::FboRef target = mFBOs.at((mIteration + 1) % mFBOs.size());
-
-	target->bindTexture()
 
 	gl::ScopedFramebuffer fbo(target);
 	gl::clear(Color(0, 0, 0));
@@ -50,19 +48,4 @@ void PingPongFBO3D::render(ci::gl::GlslProgRef shader)
 
 	// Increment mIteration here so that `getTexture()` always points to the latest
 	++mIteration;
-}
-
-Surface PingPongFBO3D::createSolid(int width, int height)
-{
-	Surface result( width, height, false );
-	Surface::Iter it = result.getIter();
-	while( it.line() ) {
-		while( it.pixel() ) {
-			it.r() = 0;
-			it.g() = 0;
-			it.b() = 0;
-		}
-	}
-	
-	return result;
 }

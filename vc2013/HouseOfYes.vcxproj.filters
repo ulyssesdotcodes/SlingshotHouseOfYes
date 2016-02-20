@@ -46,6 +46,9 @@
     <Filter Include="Images">
       <UniqueIdentifier>{fd64b51d-699d-4dc7-adae-3df23306292a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Shaders\Fluid">
+      <UniqueIdentifier>{4a9a3369-0f9b-4b38-8458-65117b6fd192}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\HouseOfYesApp.cpp">
@@ -174,6 +177,18 @@
     <ClCompile Include="..\src\OscController.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\Fluid.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\PingPongFBO3D.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Fluid3D.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\FireCue.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\Resources.h">
@@ -198,6 +213,18 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\src\World.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Fluid.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\PingPongFBO3D.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Fluid3D.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\FireCue.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -227,6 +254,48 @@
     </None>
     <None Include="..\assets\Shaders\fire.vert">
       <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\assets\Shaders\fluid\advect.frag">
+      <Filter>Shaders\Fluid</Filter>
+    </None>
+    <None Include="..\assets\Shaders\fluid\advect_maccormack.frag">
+      <Filter>Shaders\Fluid</Filter>
+    </None>
+    <None Include="..\assets\Shaders\fluid\advectR.frag">
+      <Filter>Shaders\Fluid</Filter>
+    </None>
+    <None Include="..\assets\Shaders\fluid\apply_force.frag">
+      <Filter>Shaders\Fluid</Filter>
+    </None>
+    <None Include="..\assets\Shaders\fluid\dye_drop.frag">
+      <Filter>Shaders\Fluid</Filter>
+    </None>
+    <None Include="..\assets\Shaders\fluid\explosions.frag">
+      <Filter>Shaders\Fluid</Filter>
+    </None>
+    <None Include="..\assets\Shaders\fluid\render.frag">
+      <Filter>Shaders\Fluid</Filter>
+    </None>
+    <None Include="..\assets\Shaders\fluid\smoke_draw.frag">
+      <Filter>Shaders\Fluid</Filter>
+    </None>
+    <None Include="..\assets\Shaders\fluid\smoke_drop.frag">
+      <Filter>Shaders\Fluid</Filter>
+    </None>
+    <None Include="..\assets\Shaders\fluid\smoke_drop_forces.frag">
+      <Filter>Shaders\Fluid</Filter>
+    </None>
+    <None Include="..\assets\Shaders\fluid\solve_pressure.frag">
+      <Filter>Shaders\Fluid</Filter>
+    </None>
+    <None Include="..\assets\Shaders\fluid\subtract_pressure.frag">
+      <Filter>Shaders\Fluid</Filter>
+    </None>
+    <None Include="..\assets\Shaders\fluid\velocity_divergence.frag">
+      <Filter>Shaders\Fluid</Filter>
+    </None>
+    <None Include="..\assets\Shaders\fluid\pick.geom">
+      <Filter>Shaders\Fluid</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

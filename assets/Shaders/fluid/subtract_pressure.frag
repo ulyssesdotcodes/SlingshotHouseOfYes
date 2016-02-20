@@ -1,8 +1,8 @@
 #version 330 core
 
-uniform vec2 i_resolution;
-uniform sampler2D tex_pressure;
-uniform sampler2D tex_velocity;
+uniform vec3 i_resolution;
+uniform sampler3D tex_pressure;
+uniform sampler3D tex_velocity;
 
 in float gLayer;
 out vec4 fragColor;
@@ -18,7 +18,7 @@ void main() {
 	float U = texture(tex_pressure, pos + vec3(0, 0, 1) / i_resolution.xyz).y;
 	float D = texture(tex_pressure, pos + vec3(0, 0, -1) / i_resolution.xyz).y;
 
-	vec4 velocity = texture2D(tex_velocity, pos);
+	vec4 velocity = texture(tex_velocity, pos);
 
 	fragColor = vec4(velocity.xyz - 0.5 * vec3(R-L, T-B, U-D), 1);
 }

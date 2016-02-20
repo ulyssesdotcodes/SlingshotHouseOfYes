@@ -208,24 +208,19 @@
     <None Include="..\assets\Shaders\fade.frag" />
     <None Include="..\assets\Shaders\fire.vert" />
     <None Include="..\assets\Shaders\fluid\advect.frag" />
-    <None Include="..\assets\Shaders\fluid\advect.vert" />
     <None Include="..\assets\Shaders\fluid\advectR.frag" />
     <None Include="..\assets\Shaders\fluid\advect_maccormack.frag" />
     <None Include="..\assets\Shaders\fluid\apply_force.frag" />
-    <None Include="..\assets\Shaders\fluid\apply_force.vert" />
     <None Include="..\assets\Shaders\fluid\dye_drop.frag" />
     <None Include="..\assets\Shaders\fluid\explosions.frag" />
+    <None Include="..\assets\Shaders\fluid\pick.geom" />
     <None Include="..\assets\Shaders\fluid\render.frag" />
-    <None Include="..\assets\Shaders\fluid\render.vert" />
     <None Include="..\assets\Shaders\fluid\smoke_draw.frag" />
     <None Include="..\assets\Shaders\fluid\smoke_drop.frag" />
     <None Include="..\assets\Shaders\fluid\smoke_drop_forces.frag" />
     <None Include="..\assets\Shaders\fluid\solve_pressure.frag" />
-    <None Include="..\assets\Shaders\fluid\solve_pressure.vert" />
     <None Include="..\assets\Shaders\fluid\subtract_pressure.frag" />
-    <None Include="..\assets\Shaders\fluid\subtract_pressure.vert" />
     <None Include="..\assets\Shaders\fluid\velocity_divergence.frag" />
-    <None Include="..\assets\Shaders\fluid\velocity_divergence.vert" />
     <None Include="..\assets\Shaders\particles.comp" />
     <None Include="..\assets\Shaders\passthru.vert" />
     <None Include="..\assets\Shaders\render.frag" />
@@ -239,6 +234,9 @@
   <ItemGroup>
     <ClCompile Include="..\src\Blank.cpp" />
     <ClCompile Include="..\src\Cue.cpp" />
+    <ClCompile Include="..\src\FireCue.cpp" />
+    <ClCompile Include="..\src\Fluid.cpp" />
+    <ClCompile Include="..\src\Fluid3D.cpp" />
     <ClCompile Include="..\src\HouseOfYesApp.cpp" />
     <ClCompile Include="..\..\Cinder\blocks\Cinder-KCB2\src\Kinect2.cpp" />
     <ClCompile Include="..\..\Cinder\blocks\Cinder-WMFVideo\src\ciWMFVideoPlayer.cpp" />
@@ -252,6 +250,7 @@
     <ClCompile Include="..\src\OscController.cpp" />
     <ClCompile Include="..\src\ParticleSystem.cpp" />
     <ClCompile Include="..\src\PingPongFBO.cpp" />
+    <ClCompile Include="..\src\PingPongFBO3D.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\Resources.h" />
@@ -282,10 +281,14 @@
     <ClInclude Include="..\..\Cinder\blocks\OSC\src\Osc.h" />
     <ClInclude Include="..\src\Blank.h" />
     <ClInclude Include="..\src\Cue.h" />
+    <ClInclude Include="..\src\FireCue.h" />
+    <ClInclude Include="..\src\Fluid.h" />
+    <ClInclude Include="..\src\Fluid3D.h" />
     <ClInclude Include="..\src\Nightlife.h" />
     <ClInclude Include="..\src\OscController.h" />
     <ClInclude Include="..\src\ParticleSystem.h" />
     <ClInclude Include="..\src\PingPongFBO.h" />
+    <ClInclude Include="..\src\PingPongFBO3D.h" />
     <ClInclude Include="..\src\World.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
