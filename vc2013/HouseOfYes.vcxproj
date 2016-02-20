@@ -207,6 +207,25 @@
   <ItemGroup>
     <None Include="..\assets\Shaders\fade.frag" />
     <None Include="..\assets\Shaders\fire.vert" />
+    <None Include="..\assets\Shaders\fluid\advect.frag" />
+    <None Include="..\assets\Shaders\fluid\advect.vert" />
+    <None Include="..\assets\Shaders\fluid\advectR.frag" />
+    <None Include="..\assets\Shaders\fluid\advect_maccormack.frag" />
+    <None Include="..\assets\Shaders\fluid\apply_force.frag" />
+    <None Include="..\assets\Shaders\fluid\apply_force.vert" />
+    <None Include="..\assets\Shaders\fluid\dye_drop.frag" />
+    <None Include="..\assets\Shaders\fluid\explosions.frag" />
+    <None Include="..\assets\Shaders\fluid\render.frag" />
+    <None Include="..\assets\Shaders\fluid\render.vert" />
+    <None Include="..\assets\Shaders\fluid\smoke_draw.frag" />
+    <None Include="..\assets\Shaders\fluid\smoke_drop.frag" />
+    <None Include="..\assets\Shaders\fluid\smoke_drop_forces.frag" />
+    <None Include="..\assets\Shaders\fluid\solve_pressure.frag" />
+    <None Include="..\assets\Shaders\fluid\solve_pressure.vert" />
+    <None Include="..\assets\Shaders\fluid\subtract_pressure.frag" />
+    <None Include="..\assets\Shaders\fluid\subtract_pressure.vert" />
+    <None Include="..\assets\Shaders\fluid\velocity_divergence.frag" />
+    <None Include="..\assets\Shaders\fluid\velocity_divergence.vert" />
     <None Include="..\assets\Shaders\particles.comp" />
     <None Include="..\assets\Shaders\passthru.vert" />
     <None Include="..\assets\Shaders\render.frag" />
