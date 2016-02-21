@@ -3,15 +3,22 @@
 using namespace ci;
 
 FireCue::FireCue(const World & world)
-	:mCam( app::getWindowWidth(), app::getWindowHeight(), 120.0f, 0.1f, 20.0f )
+	:mCam( app::getWindowWidth(), app::getWindowHeight(), 90.0f, 0.1f, 20.0f )
 {
 	mCam.lookAt( vec3( 0.0f, 0.0f, 2.0f ), vec3( 0 ) );
 
-	vec3 fluidResolution = vec3(world.windowSize.x * 0.25, world.windowSize.y * 0.25, 64);
+	vec3 fluidResolution = vec3(512, 512, 64);
 	mFluid = Fluid3D(fluidResolution);
 
 	gl::GlslProg::Format updateFormat;
 	updateFormat.vertex(app::loadAsset("Shaders/passthru.vert"));
+	updateFormat.geometry(app::loadAsset("Shaders/Fluid/raycast.geom"));
+	updateFormat.fragment(app::loadAsset("Shaders/Fluid/raycast.frag"));
+	mRaycastShader = gl::GlslProg::create(updateFormat);
+	mRaycastShader->uniform("i_resolution", world.windowSize);
+	mRaycastShader->uniform("i_origin", mCam.getEyePoint());
+
+	updateFormat.vertex(app::loadAsset("Shaders/Fluid/pick.vert"));
 	updateFormat.geometry(app::loadAsset("Shaders/Fluid/pick.geom"));
 	updateFormat.fragment(app::loadAsset("Shaders/Fluid/smoke_drop_forces.frag"));
 	mForcesShader = gl::GlslProg::create(updateFormat);
@@ -20,13 +27,8 @@ FireCue::FireCue(const World & world)
 	updateFormat.fragment(app::loadAsset("Shaders/Fluid/smoke_drop.frag"));
 	mSmokeDropShader = gl::GlslProg::create(updateFormat);
 	mSmokeDropShader->uniform("i_resolution", fluidResolution);
-	mSmokeDropShader->uniform("i_smokeDropPos", vec2(0.5, 0.8));
+	mSmokeDropShader->uniform("i_smokeDropPos", vec2(0.5, 0.5));
 
-	updateFormat.geometry(app::loadAsset("Shaders/Fluid/raycast.geom"));
-	updateFormat.fragment(app::loadAsset("Shaders/Fluid/raycast.frag"));
-	mRaycastShader = gl::GlslProg::create(updateFormat);
-	mRaycastShader->uniform("i_resolution", world.windowSize);
-	mRaycastShader->uniform("i_origin", mCam.getEyePoint());
 
 	gl::Texture2d::Format texFmt;
 	texFmt.setInternalFormat(GL_RGBA32F);

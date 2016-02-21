@@ -31,6 +31,8 @@ private:
 		mPressureSolveShader,
 		mSubtractPressureShader;
 
+	std::vector<ci::vec4> mVerts;
+
 
 	void applyForces(ci::gl::GlslProgRef forces, ci::gl::TextureBaseRef smoke);
 	void computeDivergence();

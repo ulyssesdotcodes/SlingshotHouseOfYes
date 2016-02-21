@@ -8,7 +8,7 @@ out float 		gLayer;
 
 void main() {
     gl_Layer = vInstance[0];
-    gLayer = float(gl_Layer);
+    gLayer = float(gl_Layer) + 0.5;
 
     gl_Position = gl_in[0].gl_Position;
     EmitVertex();

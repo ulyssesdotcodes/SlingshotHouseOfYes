@@ -5,6 +5,7 @@ out vec4 fragColor;
 uniform sampler3D tex_smoke;
 
 uniform mat4 ciModelView;
+uniform mat4 ciModelViewProjection;
 uniform vec2 i_resolution;
 uniform vec3 i_origin;
 
@@ -64,7 +65,7 @@ void main()
 	rayDirection.z -= FocalLength;
     rayDirection = (vec4(rayDirection, 0) * ciModelView).xyz;
 
-    Ray eye = Ray( i_origin, normalize(rayDirection) );
+    Ray eye = Ray( (vec4(i_origin, 0) * ciModelView).xyz, normalize(rayDirection) );
     AABB aabb = AABB(vec3(-1), vec3(1));
 
     float tnear, tfar;

@@ -22,7 +22,7 @@ float rand(vec2 co){
 }
 
 void main() {
-	vec3 pos = vec3(gl_FragCoord.xy, gLayer) / i_resolution.xyz;
+	vec3 pos = vec3(gl_FragCoord.xy, gLayer) / i_resolution;
 	vec3 current = texture(tex_prev, pos).xyz * 0.99;
 
 	vec3 mSDP = vec3(i_smokeDropPos.x, 1.0 - i_smokeDropPos.y, 0);
@@ -41,6 +41,6 @@ void main() {
 		hue = 0.22;
 	}
 
-	fragColor = vec4(current.x + density, temperature, hue, 1);
+	fragColor = vec4(current.x * 10 + density, temperature, hue, 1);
 	//fragColor = vec4(dropDistance, 1);
 }

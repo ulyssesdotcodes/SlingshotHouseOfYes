@@ -75,7 +75,7 @@ void Fluid3D::advect(float dt, PingPongFBO3D* value)
 		gl::ScopedTextureBind scopeTarget(value->getTexture(), ADVECT_POINTER);
 		mAdvectShader->uniform("tex_target", ADVECT_POINTER);
 
-		mAdvectShader->uniform("i_targetResolution", (vec2) value->getBounds().getSize());
+		mAdvectShader->uniform("i_targetResolution", (vec3) value->getSize());
 
 		value->render(mAdvectShader);
 	}
