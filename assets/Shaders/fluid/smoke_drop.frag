@@ -1,13 +1,14 @@
 #version 330 core
 
-uniform vec2 i_resolution;
-uniform sampler2D tex_prev;
+uniform vec3 i_resolution;
+uniform sampler3D tex_prev;
 
 uniform vec2 i_smokeDropPos;
 uniform float i_volume;
 uniform float i_beat;
 uniform float i_dt;
 
+in float gLayer;
 out vec4 fragColor;
 
 vec3 hsv2rgb(vec3 c) {
@@ -21,16 +22,17 @@ float rand(vec2 co){
 }
 
 void main() {
-	vec2 pos = gl_FragCoord.xy / i_resolution.xy;
-	vec3 current = texture2D(tex_prev, pos).xyz * 0.99;
+	vec3 pos = vec3(gl_FragCoord.xy, gLayer) / i_resolution.xyz;
+	vec3 current = texture(tex_prev, pos).xyz * 0.99;
 
-	vec2 mSDP = vec2(i_smokeDropPos.x, 1.0 - i_smokeDropPos.y);
+	vec3 mSDP = vec3(i_smokeDropPos.x, 1.0 - i_smokeDropPos.y, 0);
 
-	vec2 dropDistance = pos - mSDP;
+	vec3 dropDistance = pos - mSDP;
 
-	float density = max(0, 0.008 - dot(dropDistance, dropDistance)) * i_dt * max(i_beat, 0.125) * 2.0;
+	//float density = max(0, 0.008 - dot(dropDistance, dropDistance)) * i_dt * max(i_beat, 0.125) * 2.0;
+	float density = max(0, 0.08 - dot(dropDistance, dropDistance)) * i_dt * 128;
 
-	density *= mix(0.6, 1.0, rand(vec2(pos.x * pos.y, cos(i_dt + i_volume))));
+	//density *= mix(0.6, 1.0, rand(vec2(pos.x * pos.y, cos(i_dt + i_volume))));
 
 	float temperature = current.y + density * 256;
 
@@ -40,4 +42,5 @@ void main() {
 	}
 
 	fragColor = vec4(current.x + density, temperature, hue, 1);
+	//fragColor = vec4(dropDistance, 1);
 }

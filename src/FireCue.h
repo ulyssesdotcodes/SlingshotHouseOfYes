@@ -15,7 +15,10 @@ private:
 	Fluid3D mFluid;
 	PingPongFBO3D mSmokeField;
 
-	ci::gl::GlslProgRef mForcesShader;
+	ci::gl::GlslProgRef mForcesShader,
+		mSmokeDropShader,
+		mRaycastShader;
 
-	void updateFBO(); 
+	ci::gl::VertBatchRef mBatch;
+	ci::CameraPersp	mCam;
 };

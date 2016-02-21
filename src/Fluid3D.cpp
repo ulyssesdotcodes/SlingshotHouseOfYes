@@ -14,7 +14,7 @@ Fluid3D::Fluid3D(vec3 fluidResolution)
 	mFluidResolution = fluidResolution;
 
 	gl::GlslProg::Format updateFormat;
-	updateFormat.vertex(app::loadAsset("Shaders/passthru.vert")).geometry(app::loadAsset("Shaders/Fluid/pick.geom"));
+	updateFormat.vertex(app::loadAsset("Shaders/Fluid/pick.vert")).geometry(app::loadAsset("Shaders/Fluid/pick.geom"));
 
 	updateFormat.fragment(app::loadAsset("Shaders/Fluid/advect.frag"));
 	mAdvectShader = gl::GlslProg::create(updateFormat);
@@ -75,7 +75,7 @@ void Fluid3D::advect(float dt, PingPongFBO3D* value)
 		gl::ScopedTextureBind scopeTarget(value->getTexture(), ADVECT_POINTER);
 		mAdvectShader->uniform("tex_target", ADVECT_POINTER);
 
-		mAdvectShader->uniform("i_target_resolution", value->getBounds().getSize());
+		mAdvectShader->uniform("i_targetResolution", (vec2) value->getBounds().getSize());
 
 		value->render(mAdvectShader);
 	}

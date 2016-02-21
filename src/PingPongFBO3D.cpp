@@ -42,7 +42,8 @@ void PingPongFBO3D::render(ci::gl::GlslProgRef shader)
 	gl::setMatricesWindow(target->getSize());
 	gl::ScopedGlslProg glsl(shader);
 
-	gl::drawSolidRect(target->getBounds());
+	gl::drawArraysInstanced(GL_TRIANGLE_STRIP, 0, 4, 64);
+
 
 	gl::popMatrices();
 

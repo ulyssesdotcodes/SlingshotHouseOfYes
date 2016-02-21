@@ -249,12 +249,6 @@
     <None Include="..\assets\Shaders\fade.frag">
       <Filter>Shaders</Filter>
     </None>
-    <None Include="..\src\fire.comp">
-      <Filter>Shaders</Filter>
-    </None>
-    <None Include="..\assets\Shaders\fire.vert">
-      <Filter>Shaders</Filter>
-    </None>
     <None Include="..\assets\Shaders\fluid\advect.frag">
       <Filter>Shaders\Fluid</Filter>
     </None>
@@ -276,9 +270,6 @@
     <None Include="..\assets\Shaders\fluid\render.frag">
       <Filter>Shaders\Fluid</Filter>
     </None>
-    <None Include="..\assets\Shaders\fluid\smoke_draw.frag">
-      <Filter>Shaders\Fluid</Filter>
-    </None>
     <None Include="..\assets\Shaders\fluid\smoke_drop.frag">
       <Filter>Shaders\Fluid</Filter>
     </None>
@@ -295,6 +286,21 @@
       <Filter>Shaders\Fluid</Filter>
     </None>
     <None Include="..\assets\Shaders\fluid\pick.geom">
+      <Filter>Shaders\Fluid</Filter>
+    </None>
+    <None Include="..\assets\Shaders\Fluid\splat.frag">
+      <Filter>Shaders\Fluid</Filter>
+    </None>
+    <None Include="..\assets\Shaders\Fluid\fire_particles.comp">
+      <Filter>Shaders\Fluid</Filter>
+    </None>
+    <None Include="..\assets\Shaders\Fluid\raycast.geom">
+      <Filter>Shaders\Fluid</Filter>
+    </None>
+    <None Include="..\assets\Shaders\fluid\raycast.frag">
+      <Filter>Shaders\Fluid</Filter>
+    </None>
+    <None Include="..\assets\Shaders\Fluid\pick.vert">
       <Filter>Shaders\Fluid</Filter>
     </None>
   </ItemGroup>
