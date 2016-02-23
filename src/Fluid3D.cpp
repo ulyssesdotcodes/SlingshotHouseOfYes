@@ -38,13 +38,15 @@ Fluid3D::Fluid3D(vec3 fluidResolution)
 
 	gl::Texture2d::Format texFmt;
 	texFmt.setInternalFormat(GL_RGBA16F);
-	texFmt.setDataType(GL_FLOAT);
-	texFmt.setTarget(GL_TEXTURE_3D);
+	texFmt.setDataType(GL_HALF_FLOAT);
+	texFmt.setTarget(GL_TEXTURE_2D);
 	texFmt.setWrap(GL_CLAMP_TO_EDGE, GL_CLAMP_TO_EDGE, GL_CLAMP_TO_EDGE);
+	texFmt.setMinFilter(GL_LINEAR);
+	texFmt.setMagFilter(GL_LINEAR);
 	gl::Fbo::Format fmt;
 	fmt.disableDepth()
 		.setColorTextureFormat(texFmt);
-	mVelocityFBO = PingPongFBO3D(fmt, mFluidResolution, 4);
+	mVelocityFBO = PingPongFBO3D(fmt, mFluidResolution, 2);
 
 	texFmt.setInternalFormat(GL_RG16F);
 	gl::Fbo::Format fmtRG;
@@ -55,8 +57,12 @@ Fluid3D::Fluid3D(vec3 fluidResolution)
 }
 
 
-void Fluid3D::update(float dt, gl::GlslProgRef forces, gl::TextureBaseRef smoke) 
+void Fluid3D::update(float dt, gl::GlslProgRef forces, gl::Texture3dRef smoke) 
 {
+	if (mVelocityFBO.getTexture() == nullptr || mPressureFBO.getTexture() == nullptr) {
+		return;
+	}
+
 	advect(dt, &mVelocityFBO);
 
 	applyForces(forces, smoke);
@@ -114,7 +120,17 @@ void Fluid3D::advect(float dt, PingPongFBO3D* value)
 
 }
 
-void Fluid3D::applyForces(gl::GlslProgRef forces, gl::TextureBaseRef smoke)
+ci::gl::Texture3dRef Fluid3D::getVelocityTexture()
+{
+	return mVelocityFBO.getTexture();
+}
+
+ci::gl::Texture3dRef Fluid3D::getPressureTexture()
+{
+	return mPressureFBO.getTexture();
+}
+
+void Fluid3D::applyForces(gl::GlslProgRef forces, gl::Texture3dRef smoke)
 {
 	gl::ScopedTextureBind scopeVel(mVelocityFBO.getTexture(), VELOCITY_POINTER);
 	forces->uniform("tex_velocity", VELOCITY_POINTER);
@@ -129,8 +145,8 @@ void Fluid3D::computeDivergence()
 {
 	gl::ScopedTextureBind scopeVel(mVelocityFBO.getTexture(), VELOCITY_POINTER);
 	mDivergenceShader->uniform("tex_velocity", VELOCITY_POINTER);
-	gl::ScopedTextureBind scopePressure(mPressureFBO.getTexture(), PRESSURE_POINTER);
-	mDivergenceShader->uniform("tex_pressure", PRESSURE_POINTER);
+	//gl::ScopedTextureBind scopePressure(mPressureFBO.getTexture(), PRESSURE_POINTER);
+	//mDivergenceShader->uniform("tex_pressure", PRESSURE_POINTER);
 
 	mPressureFBO.render(mDivergenceShader);
 }

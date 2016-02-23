@@ -7,7 +7,7 @@ FireCue::FireCue(const World & world)
 {
 	mCam.lookAt( vec3( 0.0f, 0.0f, 2.0f ), vec3( 0 ) );
 
-	vec3 fluidResolution = vec3(512, 512, 64);
+	vec3 fluidResolution = vec3(512, 512, 32);
 	mFluid = Fluid3D(fluidResolution);
 
 	gl::GlslProg::Format updateFormat;
@@ -27,18 +27,18 @@ FireCue::FireCue(const World & world)
 	updateFormat.fragment(app::loadAsset("Shaders/Fluid/smoke_drop.frag"));
 	mSmokeDropShader = gl::GlslProg::create(updateFormat);
 	mSmokeDropShader->uniform("i_resolution", fluidResolution);
-	mSmokeDropShader->uniform("i_smokeDropPos", vec2(0.5, 0.5));
+	mSmokeDropShader->uniform("i_smokeDropPos", vec2(0.5, 0.8));
 
 
 	gl::Texture2d::Format texFmt;
-	texFmt.setInternalFormat(GL_RGBA32F);
-	texFmt.setDataType(GL_FLOAT);
+	texFmt.setInternalFormat(GL_RGBA16F);
+	texFmt.setDataType(GL_HALF_FLOAT);
 	texFmt.setTarget(GL_TEXTURE_3D);
 	texFmt.setWrap(GL_CLAMP_TO_EDGE, GL_CLAMP_TO_EDGE, GL_CLAMP_TO_EDGE);
 	gl::Fbo::Format fmt;
 	fmt.disableDepth()
 		.setColorTextureFormat(texFmt);
-	mSmokeField = PingPongFBO3D(fmt, fluidResolution, 4);
+	mSmokeField = PingPongFBO3D(fmt, fluidResolution, 2);
 
 	mBatch = gl::VertBatch::create();
 	mBatch->vertex(vec3(0));
@@ -47,20 +47,23 @@ FireCue::FireCue(const World & world)
 void FireCue::update(const World & world)
 {
 	mForcesShader->uniform("i_dt", world.dt);
+	mForcesShader->uniform("i_time", world.time);
 	mFluid.update(world.dt, mForcesShader, mSmokeField.getTexture());
+
+	// Use the fluid to advect the smoke
+	mFluid.advect(world.dt, &mSmokeField);
 
 	gl::ScopedTextureBind scopeSmokeDrop(mSmokeField.getTexture(), 0);
 	mSmokeDropShader->uniform("tex_prev", 0);
 	mSmokeDropShader->uniform("i_dt", world.dt);
+	mSmokeDropShader->uniform("i_time", world.time);
 	mSmokeField.render(mSmokeDropShader);
-
-	// Use the fluid to advect the smoke
-	mFluid.advect(world.dt, &mSmokeField);
 }
 
 void FireCue::draw(const World & world)
 {
 	gl::ScopedTextureBind smokeTex(mSmokeField.getTexture(), 0);
+	//gl::ScopedTextureBind smokeTex(mFluid.getVelocityTexture(), 0);
 	mRaycastShader->uniform("tex_smoke", 0);
 
 	gl::ScopedViewport vp(ivec2(0), world.windowSize);

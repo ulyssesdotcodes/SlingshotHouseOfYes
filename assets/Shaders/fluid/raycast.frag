@@ -80,7 +80,7 @@ void main()
     vec3 pos = rayStart;
     vec3 viewDir = normalize(rayStop-rayStart) * StepSize;
     float T = 1.0;
-    vec3 Lo = Ambient;
+    vec3 Lo = vec3(0);
 
     float remainingLength = distance(rayStop, rayStart);
 
@@ -88,15 +88,15 @@ void main()
         ++i, pos += viewDir, remainingLength -= StepSize) {
 
 		vec4 smoke = getSmoke(pos);
-        //if (smoke.x <= 0.01) {
-        //    continue;
-        //}
+        if (smoke.x <= 0.01) {
+            continue;
+        }
 
-		vec3 color = hsv2rgb(vec3(smoke.z, 0.7, smoke.x * 2048 + smoke.y * 0.25));
+		vec3 color = hsv2rgb(vec3(0.33, 0.7, smoke.x * 2048 + smoke.y * 0.25));
 
         T *= 1.0 - smoke.x * StepSize;
-        //if (T <= 0.01)
-        //    break;
+        if (T <= 0.01)
+            break;
 
         Lo += color * StepSize;
     }

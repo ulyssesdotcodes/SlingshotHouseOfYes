@@ -11,7 +11,15 @@ PingPongFBO3D::PingPongFBO3D(ci::gl::Fbo::Format fmt, ci::ivec3 size, int buffer
 {
 	mSize = size;
 	for (int i = 0; i < buffers; ++i) {
-		gl::Texture3dRef tex = gl::Texture3d::create(size.x, size.y, size.z);
+		gl::Texture2d::Format cFmt = fmt.getColorTextureFormat();
+		gl::Texture3d::Format fmt3d;
+		fmt3d.setInternalFormat(cFmt.getInternalFormat());
+		fmt3d.setTarget(GL_TEXTURE_3D);
+		fmt3d.setWrap(cFmt.getWrapS(), cFmt.getWrapT(), cFmt.getWrapR());
+		fmt3d.setMagFilter(cFmt.getMagFilter());
+		fmt3d.setMagFilter(cFmt.getMinFilter());
+
+		gl::Texture3dRef tex = gl::Texture3d::create(size.x, size.y, size.z, fmt3d);
 		mTextures.push_back(tex);
 
 		fmt.attachment(GL_COLOR_ATTACHMENT0, tex).disableDepth();
@@ -22,14 +30,14 @@ PingPongFBO3D::PingPongFBO3D(ci::gl::Fbo::Format fmt, ci::ivec3 size, int buffer
 	}
 }
 
-ci::gl::TextureBaseRef PingPongFBO3D::getTexture()
+ci::gl::Texture3dRef PingPongFBO3D::getTexture()
 {
-	return mFBOs.at(mIteration % mFBOs.size())->getTextureBase(GL_COLOR_ATTACHMENT0);
+	return mTextures[mIteration % mFBOs.size()];;
 }
 
 Area PingPongFBO3D::getBounds()
 {
-	return mFBOs.at(mIteration % mFBOs.size())->getTextureBase(GL_COLOR_ATTACHMENT0)->getBounds();
+	return mTextures[mIteration % mFBOs.size()]->getBounds();
 }
 
 vec3 PingPongFBO3D::getSize()
@@ -88,6 +96,6 @@ void PingPongFBO3D::drawSolidRect(gl::GlslProgRef prog)
 
 	ctx->getDefaultVao()->replacementBindEnd();
 	ctx->setDefaultShaderVars();
-	gl::drawArraysInstanced(GL_TRIANGLE_STRIP, 0, 4, 64);
+	gl::drawArraysInstanced(GL_TRIANGLE_STRIP, 0, 4, 32);
 	ctx->popVao();
 }

@@ -78,11 +78,13 @@ void HouseOfYesApp::draw()
 
 	mCurrentCue->draw(mWorld);
 
-	//gl::pushMatrices();
-	//gl::setMatricesWindow(getWindowSize());
+	gl::pushMatrices();
+	gl::setMatricesWindow(getWindowSize());
 	//Rectf destRect = Rectf( mTexture->getBounds() ).getCenteredFit( getWindowBounds(), true );
+	gl::drawString("Framerate: " + std::to_string(getAverageFps()), vec2(10));
 	//gl::draw( mTexture, destRect );
-	//gl::popMatrices();
+	gl::popMatrices();
+	
 }
 
 void HouseOfYesApp::setCue(std::string name)

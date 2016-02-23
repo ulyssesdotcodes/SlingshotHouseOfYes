@@ -2,10 +2,9 @@
 
 uniform vec3 i_resolution;
 uniform sampler3D tex_pressure;
-uniform sampler3D tex_divergence;
 
 in float gLayer;
-out vec4 fragColor;
+out vec2 fragColor;
 
 void main() {
 	vec2 outDP;
@@ -18,7 +17,7 @@ void main() {
 	float U = texture(tex_pressure, pos + vec3(0, 0, 1) / i_resolution.xyz).y;
 	float D = texture(tex_pressure, pos + vec3(0, 0, -1) / i_resolution.xyz).y;
 
-	float bC = texture(tex_divergence, pos).x;
+	float bC = texture(tex_pressure, pos).x;
 
-	fragColor = vec4(bC, (L + R + B + T + U + D - bC) / 6, 0, 1);
+	fragColor = vec2(bC, (L + R + B + T + U + D - bC) / 6);
 }

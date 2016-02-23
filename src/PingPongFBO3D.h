@@ -6,7 +6,7 @@ class PingPongFBO3D {
 public:
 	PingPongFBO3D();
 	PingPongFBO3D(ci::gl::Fbo::Format fmt, ci::ivec3 size, int buffers);
-	ci::gl::TextureBaseRef getTexture();
+	ci::gl::Texture3dRef getTexture();
 	void render(ci::gl::GlslProgRef shader);
 	ci::Area getBounds();
 	ci::vec3 getSize();
