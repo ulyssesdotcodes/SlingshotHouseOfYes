@@ -20,7 +20,7 @@ private:
 		mSmokeDrawShader;
 		//mRaycastShader;
 
-	ci::gl::TextureRef mHoYTex;
+	ci::gl::TextureRef mObstacles;
 
 	//ci::gl::VertBatchRef mBatch;
 	//ci::CameraPersp	mCam;

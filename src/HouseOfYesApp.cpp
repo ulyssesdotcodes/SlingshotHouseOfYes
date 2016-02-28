@@ -8,6 +8,7 @@
 #include "OscController.h"
 #include "ParticleSystem.h"
 #include "PingPongFBO.h"
+#include "SmokeCue.h"
 
 using namespace ci;
 using namespace ci::app;
@@ -45,7 +46,8 @@ void HouseOfYesApp::setup()
 	mCues.insert(make_pair("Blank", std::make_shared<Blank>()));
 	mCues.insert(make_pair("Nightlife", std::make_shared<Nightlife>(mWorld)));
 	mCues.insert(make_pair("Fire", std::make_shared<FireCue>(mWorld)));
-	mCurrentCue = mCues["Fire"];
+	mCues.insert(make_pair("Smoke", std::make_shared<SmokeCue>(mWorld)));
+	mCurrentCue = mCues["Smoke"];
 
 	// HoY image
 	//mTexture = gl::Texture::create(loadImage(loadAsset("Images/HOYSplineMask.png")));
