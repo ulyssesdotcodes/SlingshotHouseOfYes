@@ -206,6 +206,18 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\assets\Shaders\fade.frag" />
+    <None Include="..\assets\Shaders\fluid\2D\advect.frag" />
+    <None Include="..\assets\Shaders\fluid\2D\advectR.frag" />
+    <None Include="..\assets\Shaders\fluid\2D\advect_maccormack.frag" />
+    <None Include="..\assets\Shaders\fluid\2D\fire_draw.frag" />
+    <None Include="..\assets\Shaders\fluid\2D\fire_drop.frag" />
+    <None Include="..\assets\Shaders\fluid\2D\fire_drop_forces.frag" />
+    <None Include="..\assets\Shaders\fluid\2D\smoke_draw.frag" />
+    <None Include="..\assets\Shaders\fluid\2D\smoke_drop.frag" />
+    <None Include="..\assets\Shaders\fluid\2D\smoke_drop_forces.frag" />
+    <None Include="..\assets\Shaders\fluid\2D\solve_pressure.frag" />
+    <None Include="..\assets\Shaders\fluid\2D\subtract_pressure.frag" />
+    <None Include="..\assets\Shaders\fluid\2D\velocity_divergence.frag" />
     <None Include="..\assets\Shaders\fluid\advect.frag" />
     <None Include="..\assets\Shaders\fluid\advectR.frag" />
     <None Include="..\assets\Shaders\fluid\advect_maccormack.frag" />
@@ -253,6 +265,7 @@
     <ClCompile Include="..\src\ParticleSystem.cpp" />
     <ClCompile Include="..\src\PingPongFBO.cpp" />
     <ClCompile Include="..\src\PingPongFBO3D.cpp" />
+    <ClCompile Include="..\src\SmokeCue.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\Resources.h" />
@@ -291,6 +304,7 @@
     <ClInclude Include="..\src\ParticleSystem.h" />
     <ClInclude Include="..\src\PingPongFBO.h" />
     <ClInclude Include="..\src\PingPongFBO3D.h" />
+    <ClInclude Include="..\src\SmokeCue.h" />
     <ClInclude Include="..\src\World.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

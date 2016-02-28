@@ -1,8 +1,8 @@
-#include "FireCue.h"
+#include "SmokeCue.h"
 
 using namespace ci;
 
-FireCue::FireCue(const World & world)
+SmokeCue::SmokeCue(const World & world)
 	//:mCam( app::getWindowWidth(), app::getWindowHeight(), 90.0f, 0.1f, 20.0f )
 {
 	//mCam.lookAt( vec3( 0.0f, 0.0f, 2.0f ), vec3( 0 ) );
@@ -13,7 +13,7 @@ FireCue::FireCue(const World & world)
 	gl::GlslProg::Format updateFormat;
 	updateFormat.vertex(app::loadAsset("Shaders/passthru.vert"));
 	//updateFormat.geometry(app::loadAsset("Shaders/Fluid/2d/raycast.geom"));
-	updateFormat.fragment(app::loadAsset("Shaders/Fluid/2D/fire_draw.frag"));
+	updateFormat.fragment(app::loadAsset("Shaders/Fluid/2D/smoke_draw.frag"));
 	//mRaycastShader = gl::GlslProg::create(updateFormat);
 	//mRaycastShader->uniform("i_resolution", world.windowSize);
 	//mRaycastShader->uniform("i_origin", mCam.getEyePoint());
@@ -22,11 +22,11 @@ FireCue::FireCue(const World & world)
 
 	//updateFormat.vertex(app::loadAsset("Shaders/Fluid/pick.vert"));
 	//updateFormat.geometry(app::loadAsset("Shaders/Fluid/pick.geom"));
-	updateFormat.fragment(app::loadAsset("Shaders/Fluid/2D/fire_drop_forces.frag"));
+	updateFormat.fragment(app::loadAsset("Shaders/Fluid/2D/smoke_drop_forces.frag"));
 	mForcesShader = gl::GlslProg::create(updateFormat);
 	mForcesShader->uniform("i_resolution", fluidResolution);
 
-	updateFormat.fragment(app::loadAsset("Shaders/Fluid/2D/fire_drop.frag"));
+	updateFormat.fragment(app::loadAsset("Shaders/Fluid/2D/smoke_drop.frag"));
 	mSmokeDropShader = gl::GlslProg::create(updateFormat);
 	mSmokeDropShader->uniform("i_resolution", fluidResolution);
 	mSmokeDropShader->uniform("i_smokeDropPos", vec2(0.5, 0.8));
@@ -42,13 +42,13 @@ FireCue::FireCue(const World & world)
 		.setColorTextureFormat(texFmt);
 	mSmokeField = PingPongFBO(fmt, fluidResolution, 2);
 
-	mHoYTex = gl::Texture::create(loadImage(app::loadAsset("Images/HOYFireMask.jpg")));
+	mHoYTex = gl::Texture::create(loadImage(app::loadAsset("Images/HOYSplineMask.jpg")));
 
 	//mBatch = gl::VertBatch::create();
 	//mBatch->vertex(vec3(0));
 }
 
-void FireCue::update(const World & world)
+void SmokeCue::update(const World & world)
 {
 	mForcesShader->uniform("i_dt", world.dt);
 	mForcesShader->uniform("i_time", world.time);
@@ -66,12 +66,12 @@ void FireCue::update(const World & world)
 	mSmokeField.render(mSmokeDropShader);
 }
 
-void FireCue::draw(const World & world)
+void SmokeCue::draw(const World & world)
 {
 	gl::ScopedTextureBind smokeTex(mSmokeField.getTexture(), 0);
 	//gl::ScopedTextureBind smokeTex(mFluid.getVelocityTexture(), 0);
 	//mRaycastShader->uniform("tex_smoke", 0);
-	mSmokeDrawShader->uniform("tex", 0);
+	mSmokeDrawShader->uniform("tex_smoke", 0);
 
 	gl::ScopedViewport vp(ivec2(0), world.windowSize);
 	//gl::ScopedGlslProg glsl(mRaycastShader);

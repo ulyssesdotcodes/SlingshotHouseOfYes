@@ -49,6 +49,9 @@
     <Filter Include="Shaders\Fluid">
       <UniqueIdentifier>{4a9a3369-0f9b-4b38-8458-65117b6fd192}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Shaders\Fluid\2D">
+      <UniqueIdentifier>{474d92e1-1fe6-491f-9e68-64e8ba6300fa}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\HouseOfYesApp.cpp">
@@ -189,6 +192,9 @@
     <ClCompile Include="..\src\FireCue.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\SmokeCue.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\Resources.h">
@@ -225,6 +231,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\src\FireCue.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\SmokeCue.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -302,6 +311,42 @@
     </None>
     <None Include="..\assets\Shaders\Fluid\pick.vert">
       <Filter>Shaders\Fluid</Filter>
+    </None>
+    <None Include="..\assets\Shaders\fluid\2D\advect.frag">
+      <Filter>Shaders\Fluid\2D</Filter>
+    </None>
+    <None Include="..\assets\Shaders\fluid\2D\advect_maccormack.frag">
+      <Filter>Shaders\Fluid\2D</Filter>
+    </None>
+    <None Include="..\assets\Shaders\fluid\2D\advectR.frag">
+      <Filter>Shaders\Fluid\2D</Filter>
+    </None>
+    <None Include="..\assets\Shaders\fluid\2D\smoke_draw.frag">
+      <Filter>Shaders\Fluid\2D</Filter>
+    </None>
+    <None Include="..\assets\Shaders\fluid\2D\smoke_drop.frag">
+      <Filter>Shaders\Fluid\2D</Filter>
+    </None>
+    <None Include="..\assets\Shaders\fluid\2D\smoke_drop_forces.frag">
+      <Filter>Shaders\Fluid\2D</Filter>
+    </None>
+    <None Include="..\assets\Shaders\fluid\2D\solve_pressure.frag">
+      <Filter>Shaders\Fluid\2D</Filter>
+    </None>
+    <None Include="..\assets\Shaders\fluid\2D\subtract_pressure.frag">
+      <Filter>Shaders\Fluid\2D</Filter>
+    </None>
+    <None Include="..\assets\Shaders\fluid\2D\velocity_divergence.frag">
+      <Filter>Shaders\Fluid\2D</Filter>
+    </None>
+    <None Include="..\assets\Shaders\fluid\2D\fire_draw.frag">
+      <Filter>Shaders\Fluid\2D</Filter>
+    </None>
+    <None Include="..\assets\Shaders\fluid\2D\fire_drop.frag">
+      <Filter>Shaders\Fluid\2D</Filter>
+    </None>
+    <None Include="..\assets\Shaders\fluid\2D\fire_drop_forces.frag">
+      <Filter>Shaders\Fluid\2D</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

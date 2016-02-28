@@ -14,12 +14,12 @@ public:
 	Fluid(ci::vec2 fluidResolution);
 
 	// Update the main velocity state
-	void update(float dt, ci::gl::GlslProgRef forces, ci::gl::TextureRef smoke);
+	void update(float dt, ci::gl::GlslProgRef forces, ci::gl::TextureRef smoke, float dissipation);
 
 	// Advect a texture based on the current velocity
-	void advect(float dt, PingPongFBO* value);
+	void advect(float dt, PingPongFBO* value, float dissipation);
 
-	PingPongFBO mVelocityFBO, mPressureFBO;
+	PingPongFBO mVelocityFBO, mPressureFBO, mDivergenceFBO;
 
 private:
 	ci::vec2 mFluidResolution;
@@ -31,6 +31,7 @@ private:
 		mPressureSolveShader,
 		mSubtractPressureShader;
 
+	ci::gl::TextureRef mObstacles;
 
 	void applyForces(ci::gl::GlslProgRef forces, ci::gl::TextureRef smoke);
 	void computeDivergence();

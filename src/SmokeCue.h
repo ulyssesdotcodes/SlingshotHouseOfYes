@@ -5,9 +5,9 @@
 #include "Cue.h"
 #include "Fluid.h"
 
-class FireCue : public Cue {
+class SmokeCue : public Cue {
 public:
-	FireCue(const World& world);
+	SmokeCue(const World& world);
 	void update(const World& world) override;
 	void draw(const World& world) override;
 
