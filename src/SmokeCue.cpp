@@ -42,7 +42,7 @@ SmokeCue::SmokeCue(const World & world)
 		.setColorTextureFormat(texFmt);
 	mSmokeField = PingPongFBO(fmt, fluidResolution, 2);
 
-	mObstacles = gl::Texture::create(loadImage(app::loadAsset("Images/HOYObstacle.jpg")));
+	mObstacles = gl::Texture::create(loadImage(app::loadAsset("Images/HOYObstacle.png")));
 
 	//mBatch = gl::VertBatch::create();
 	//mBatch->vertex(vec3(0));
@@ -52,7 +52,7 @@ void SmokeCue::update(const World & world)
 {
 	mForcesShader->uniform("i_dt", world.dt);
 	mForcesShader->uniform("i_time", world.time);
-	mFluid.update(world.dt, mForcesShader, mSmokeField.getTexture(), 0.99);
+	mFluid.update(world.dt, mForcesShader, mSmokeField.getTexture(), 0.995);
 
 	// Use the fluid to advect the smoke
 	mFluid.advect(world.dt, &mSmokeField, 0.98);
@@ -73,6 +73,9 @@ void SmokeCue::draw(const World & world)
 	//gl::ScopedTextureBind smokeTex(mFluid.getVelocityTexture(), 0);
 	//mRaycastShader->uniform("tex_smoke", 0);
 	mSmokeDrawShader->uniform("tex_smoke", 0);
+
+	gl::ScopedTextureBind obsTex(mObstacles, 1);
+	mSmokeDrawShader->uniform("tex_obstacles", 1);
 
 	gl::ScopedViewport vp(ivec2(0), world.windowSize);
 	//gl::ScopedGlslProg glsl(mRaycastShader);

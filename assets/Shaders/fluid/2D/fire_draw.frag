@@ -16,5 +16,5 @@ void main() {
     vec2 position = gl_FragCoord.xy / i_resolution.xy;
 	vec4 smoke = texture2D(tex, position);
 
-	fragColor = vec4(hsv2rgb(vec3(smoke.z * clamp(smoke.y, 0, 1), clamp(smoke.y, 0, 1), smoke.x * 256 + smoke.y * 0.25)), 1);
+	fragColor = vec4(hsv2rgb(vec3(mix(0, 0.16, smoke.y * 0.001953125), clamp(smoke.y, 0, 1), smoke.x * 256 + smoke.y * 0.25)), 1);
 }

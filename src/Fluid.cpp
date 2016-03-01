@@ -16,7 +16,7 @@ Fluid::Fluid(vec2 fluidResolution)
 {
 	mFluidResolution = fluidResolution;
 
-	mObstacles = gl::Texture::create(loadImage(app::loadAsset("Images/HOYObstacle.jpg")));
+	mObstacles = gl::Texture::create(loadImage(app::loadAsset("Images/HOYObstacle.png")));
 
 	gl::GlslProg::Format updateFormat;
 	updateFormat.vertex(app::loadAsset("Shaders/passthru.vert"));

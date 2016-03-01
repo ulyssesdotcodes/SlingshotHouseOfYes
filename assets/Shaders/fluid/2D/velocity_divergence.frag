@@ -19,10 +19,10 @@ void main() {
 	vec4 oR = texture2D(tex_obstacles, pos + vec2(1, 0) / i_resolution.xy);
 	vec4 oB = texture2D(tex_obstacles, pos + vec2(0, -1) / i_resolution.xy);
 
-	if(oL.x > 0) L = oL;
-	if(oT.x > 0) T = oT;
-	if(oR.x > 0) R = oR;
-	if(oB.x > 0) B = oB;
+	//if(oL.x > 0) L = oL;
+	//if(oT.x > 0) T = oT;
+	//if(oR.x > 0) R = oR;
+	//if(oB.x > 0) B = oB;
 
-	fragColor = vec4((R.x - L.x) + (T.y - B.y), 0, 0, 1);
+	fragColor = vec4((R.x - L.x) + (T.y - B.y) * 0.5, 0, 0, 1);
 }

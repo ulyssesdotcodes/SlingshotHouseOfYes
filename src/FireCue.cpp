@@ -42,7 +42,7 @@ FireCue::FireCue(const World & world)
 		.setColorTextureFormat(texFmt);
 	mSmokeField = PingPongFBO(fmt, fluidResolution, 2);
 
-	mHoYTex = gl::Texture::create(loadImage(app::loadAsset("Images/HOYFireMask.jpg")));
+	mHoYTex = gl::Texture::create(loadImage(app::loadAsset("Images/HOYFire.png")));
 
 	//mBatch = gl::VertBatch::create();
 	//mBatch->vertex(vec3(0));

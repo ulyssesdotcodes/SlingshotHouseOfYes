@@ -25,10 +25,10 @@ void main() {
 	vec2 obsV = vec2(0);
 	vec2 vMask = vec2(1);
 
-	if(oL.x > 0) { L = C; obsV.x = oL.y; vMask.x = 0; } 
-	if(oR.x > 0) { R = C; obsV.x = oR.y; vMask.x = 0; } 
-	if(oT.x > 0) { T = C; obsV.y = oT.x; vMask.y = 0; } 
-	if(oB.x > 0) { B = C; obsV.y = oB.x; vMask.y = 0; } 
+	//if(oL.x > 0) { L = C; obsV.x = oL.y; vMask.x = 0; } 
+	//if(oR.x > 0) { R = C; obsV.x = oR.y; vMask.x = 0; } 
+	//if(oT.x > 0) { T = C; obsV.y = oT.x; vMask.y = 0; } 
+	//if(oB.x > 0) { B = C; obsV.y = oB.x; vMask.y = 0; } 
 	
 	vec2 oldVel = texture2D(tex_velocity, pos).xy;
 	vec2 vel = oldVel - 0.5 * vec2(R-L, T-B);
