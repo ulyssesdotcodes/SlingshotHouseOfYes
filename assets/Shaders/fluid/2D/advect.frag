@@ -30,14 +30,14 @@ vec4 inner(vec2 targetPos) {
 
 void main() {
 	vec2 targetPos = gl_FragCoord.xy / i_target_resolution.xy;
-	float obstacle = texture2D(tex_obstacles, targetPos).x;
+	//float obstacle = texture2D(tex_obstacles, targetPos).x;
 	vec4 outVal;
-	if(obstacle > 0) {
-		outVal = vec4(0);
-	}
-	else {
+	//if(obstacle > 0) {
+	//	outVal = vec4(0);
+	//}
+	//else {
 		outVal = inner(targetPos);
-	}
+	//}
 
 	fragColor = outVal;
 }

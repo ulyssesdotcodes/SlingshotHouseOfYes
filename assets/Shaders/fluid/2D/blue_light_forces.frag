@@ -7,7 +7,6 @@ uniform sampler2D tex_obstacles;
 
 uniform float i_dt;
 uniform float i_time;
-uniform float i_darkness;
 
 uniform vec2 i_smokeDropPos;
 
@@ -30,7 +29,7 @@ void main() {
 	vec2 v = texture2D(tex_velocity, pos).xy;
 	vec2 smoke = texture2D(tex_smoke, pos).xy; // x is density, y is temperature
 
-	float Fb = ((smoke.y - 0.02) - 0.5 * smoke.x) * i_dt * (1 + i_darkness);
+	float Fb = ((smoke.y - 0.02) - smoke.x) * i_dt * 32;
 	vec2 F = vec2(0, Fb); // buoyancy = (-k*density + (T - T0))
 
 	// Add this line in to move the smoke back and forth a bit

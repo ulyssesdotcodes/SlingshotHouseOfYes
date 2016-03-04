@@ -5,24 +5,23 @@
 #include "Cue.h"
 #include "Fluid.h"
 
-class FireCue : public Cue {
+class BlueLightCue : public Cue {
 public:
-	FireCue(const World& world);
+	BlueLightCue(const World& world);
 	void update(const World& world) override;
 	void draw(const World& world) override;
 
 private:
 	Fluid mFluid;
-	PingPongFBO mSmokeField,
-		mFireDropTex;
+	PingPongFBO mSmokeField;
 
 	ci::gl::GlslProgRef mForcesShader,
 		mSmokeDropShader,
 		mSmokeDrawShader,
-		mFireDropTexShader;
+		mBlueLightDropTexShader;
 		//mRaycastShader;
 
-	ci::gl::TextureRef mHoYTex;
+	ci::vec2 mDropPos;
 
 	//ci::gl::VertBatchRef mBatch;
 	//ci::CameraPersp	mCam;

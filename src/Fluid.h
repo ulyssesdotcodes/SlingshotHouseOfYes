@@ -19,7 +19,7 @@ public:
 	// Advect a texture based on the current velocity
 	void advect(float dt, PingPongFBO* value, float dissipation);
 
-	PingPongFBO mVelocityFBO, mPressureFBO, mDivergenceFBO;
+	PingPongFBO mVelocityFBO, mPressureFBO, mVorticityFBO;
 
 private:
 	ci::vec2 mFluidResolution;
@@ -29,7 +29,9 @@ private:
 		mAdvectMaccormackShader,
 		mDivergenceShader,
 		mPressureSolveShader,
-		mSubtractPressureShader;
+		mSubtractPressureShader,
+		mVorticityShader,
+		mVorticityForcesShader;
 
 	ci::gl::TextureRef mObstacles;
 
@@ -37,5 +39,6 @@ private:
 	void computeDivergence();
 	void solvePressure();
 	void subtractPressure();
+	void computeVorticity();
 
 };

@@ -1,9 +1,10 @@
-#include "FireCue.h"
+#include "BlueLightCue.h"
 
 using namespace ci;
 
-FireCue::FireCue(const World & world)
+BlueLightCue::BlueLightCue(const World & world)
 	//:mCam( app::getWindowWidth(), app::getWindowHeight(), 90.0f, 0.1f, 20.0f )
+	: mDropPos(vec2(0.5, 0.2))
 {
 	//mCam.lookAt( vec3( 0.0f, 0.0f, 2.0f ), vec3( 0 ) );
 
@@ -13,7 +14,7 @@ FireCue::FireCue(const World & world)
 	gl::GlslProg::Format updateFormat;
 	updateFormat.vertex(app::loadAsset("Shaders/passthru.vert"));
 	//updateFormat.geometry(app::loadAsset("Shaders/Fluid/2d/raycast.geom"));
-	updateFormat.fragment(app::loadAsset("Shaders/Fluid/2D/fire_draw.frag"));
+	updateFormat.fragment(app::loadAsset("Shaders/Fluid/2D/blue_light_draw.frag"));
 	//mRaycastShader = gl::GlslProg::create(updateFormat);
 	//mRaycastShader->uniform("i_resolution", world.windowSize);
 	//mRaycastShader->uniform("i_origin", mCam.getEyePoint());
@@ -22,19 +23,16 @@ FireCue::FireCue(const World & world)
 
 	//updateFormat.vertex(app::loadAsset("Shaders/Fluid/pick.vert"));
 	//updateFormat.geometry(app::loadAsset("Shaders/Fluid/pick.geom"));
-	updateFormat.fragment(app::loadAsset("Shaders/Fluid/2D/fire_drop_forces.frag"));
+	updateFormat.fragment(app::loadAsset("Shaders/Fluid/2D/blue_light_forces.frag"));
 	mForcesShader = gl::GlslProg::create(updateFormat);
 	mForcesShader->uniform("i_resolution", fluidResolution);
 
-	updateFormat.fragment(app::loadAsset("Shaders/Fluid/2D/fire_drop.frag"));
+	updateFormat.fragment(app::loadAsset("Shaders/Fluid/2D/blue_light_drop.frag"));
 	mSmokeDropShader = gl::GlslProg::create(updateFormat);
 	mSmokeDropShader->uniform("i_resolution", world.windowSize);
-	mSmokeDropShader->uniform("i_smokeDropPos", vec2(0.5, 0.8));
-
-	updateFormat.fragment(app::loadAsset("Shaders/Fluid/2D/fire_drop_map.frag"));
-	mFireDropTexShader = gl::GlslProg::create(updateFormat);
-	mFireDropTexShader->uniform("i_resolution", world.windowSize);
-	mFireDropTexShader->uniform("i_mult", 1.0f);
+	mSmokeDropShader->uniform("i_dropPos", mDropPos);
+	mSmokeDropShader->uniform("i_dropSize", 0.004f);
+	mSmokeDropShader->uniform("i_mult", 1.0f);
 
 	gl::Texture2d::Format texFmt;
 	texFmt.setInternalFormat(GL_RGBA16F);
@@ -46,47 +44,48 @@ FireCue::FireCue(const World & world)
 		.setColorTextureFormat(texFmt);
 	mSmokeField = PingPongFBO(fmt, world.windowSize, 2);
 
-	mHoYTex = gl::Texture::create(loadImage(app::loadAsset("Images/HOYFire.png")));
+	world.oscController->subscribe("/hoy/cues/bluelight/intensity/value", [=](const osc::Message message) {
+		mSmokeDropShader->uniform("i_mult", message.getArgFloat(0));
+	});
 
-	mFireDropTex = PingPongFBO(fmt, world.windowSize, 2);
+	world.oscController->subscribe("/hoy/cues/bluelight/size/value", [=](const osc::Message message) {
+		mSmokeDropShader->uniform("i_dropSize", message.getArgFloat(0));
+	});
 
-	gl::GlslProgRef drawTex = gl::getStockShader(gl::ShaderDef().texture(mHoYTex));
+	world.oscController->subscribe("/hoy/cues/bluelight/x/value", [=](const osc::Message message) {
+		mDropPos.x = message.getArgFloat(0);
+		mSmokeDropShader->uniform("i_dropPos", mDropPos);
+	});
 
-	{
-		gl::ScopedTextureBind hoy(mHoYTex);
-		mFireDropTex.render(drawTex);
-	}
-
-	world.oscController->subscribe("/hoy/cues/fire/intensity/value", [=](const osc::Message message) {
-		mFireDropTexShader->uniform("i_mult", message.getArgFloat(0));
+	world.oscController->subscribe("/hoy/cues/bluelight/y/value", [=](const osc::Message message) {
+		mDropPos.y = message.getArgFloat(0);
+		mSmokeDropShader->uniform("i_dropPos", mDropPos);
 	});
 }
 
-void FireCue::update(const World & world)
+void BlueLightCue::update(const World & world)
 {
 	mForcesShader->uniform("i_dt", world.dt);
 	mForcesShader->uniform("i_time", world.time);
-	mFluid.update(world.dt, mForcesShader, mSmokeField.getTexture(), 0.98);
+	mFluid.update(world.dt, mForcesShader, mSmokeField.getTexture(), 0.99);
 
 	// Use the fluid to advect the smoke
-	mFluid.advect(world.dt, &mSmokeField, 0.98);
+	mFluid.advect(world.dt, &mSmokeField, 0.995);
 
 
-	gl::ScopedTextureBind scopeFireTexDrop(mFireDropTex.getTexture(), 2);
-	mFireDropTexShader->uniform("tex_fire", 2);
+	//gl::ScopedTextureBind scopeBlueLightTexDrop(mBlueLightDropTex.getTexture(), 2);
+	//mBlueLightDropTexShader->uniform("tex_fire", 2);
 
-	mFireDropTex.render(mFireDropTexShader);
+	//mBlueLightDropTex.render(mBlueLightDropTexShader);
 
 	gl::ScopedTextureBind scopeSmokeDrop(mSmokeField.getTexture(), 0);
 	mSmokeDropShader->uniform("tex_prev", 0);
-	gl::ScopedTextureBind hoyTex(mFireDropTex.getTexture(), 1);
-	mSmokeDropShader->uniform("tex_hoy", 1);
 	mSmokeDropShader->uniform("i_dt", world.dt);
 	mSmokeDropShader->uniform("i_time", world.time);
 	mSmokeField.render(mSmokeDropShader);
 }
 
-void FireCue::draw(const World & world)
+void BlueLightCue::draw(const World & world)
 {
 	gl::ScopedTextureBind smokeTex(mSmokeField.getTexture(), 0);
 	//gl::ScopedTextureBind smokeTex(mFluid.getVelocityTexture(), 0);

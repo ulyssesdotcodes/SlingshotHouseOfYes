@@ -4,7 +4,6 @@ uniform sampler2D tex_smoke;
 uniform sampler2D tex_obstacles;
 
 uniform vec2 i_resolution;
-uniform float i_darkness;
 
 out vec4 fragColor;
 
@@ -18,22 +17,10 @@ void main() {
     vec2 position = gl_FragCoord.xy / i_resolution.xy;
 	vec4 smoke = texture2D(tex_smoke, position);
 
-	vec4 obstacles = texture2D(tex_obstacles, position);
-
-	if(obstacles.x > 0) {
-		fragColor = vec4(0);
-		return;
-	}
-
-	vec3 cloudColorLight = vec3(0.54, 0.8, 0.91);
-	vec3 cloudColorDark = vec3(0.54, 0.2, 0.2);
-
-	vec3 cloudColor = mix(cloudColorLight, cloudColorDark, i_darkness);
-
 	if(smoke.x > 0) {
-		fragColor = vec4(hsv2rgb(mix(cloudColor, vec3(0.54, 0, 1.0 - i_darkness), smoke.x)), 1);
+		fragColor = vec4(hsv2rgb(vec3(smoke.z, 0.6, smoke.x * 2)), 1);
 		return;
 	}
 
-	fragColor = vec4(hsv2rgb(cloudColor), 1);
+	fragColor = vec4(vec3(0), 1);
 }

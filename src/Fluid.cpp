@@ -41,6 +41,14 @@ Fluid::Fluid(vec2 fluidResolution)
 	mPressureSolveShader = gl::GlslProg::create(updateFormat);
 	mPressureSolveShader->uniform("i_resolution", mFluidResolution);
 
+	updateFormat.fragment(app::loadAsset("Shaders/Fluid/2D/vorticity.frag"));
+	mVorticityShader = gl::GlslProg::create(updateFormat);
+	mVorticityShader->uniform("i_resolution", mFluidResolution);
+
+	updateFormat.fragment(app::loadAsset("Shaders/Fluid/2D/vorticity_forces.frag"));
+	mVorticityForcesShader = gl::GlslProg::create(updateFormat);
+	mVorticityForcesShader->uniform("i_resolution", mFluidResolution);
+
 	gl::Texture2d::Format texFmt;
 	texFmt.setInternalFormat(GL_RG16F);
 	texFmt.setDataType(GL_HALF_FLOAT);
@@ -50,6 +58,7 @@ Fluid::Fluid(vec2 fluidResolution)
 	fmt.disableDepth()
 		.setColorTextureFormat(texFmt);
 	mVelocityFBO = PingPongFBO(fmt, mFluidResolution, 2);
+	mVorticityFBO = PingPongFBO(fmt, mFluidResolution, 2);
 
 	texFmt.setInternalFormat(GL_RG16F);
 	gl::Fbo::Format fmtR;
@@ -57,7 +66,6 @@ Fluid::Fluid(vec2 fluidResolution)
 		.setColorTextureFormat(texFmt);
 
 	mPressureFBO = PingPongFBO(fmtR, mFluidResolution, 2);
-	//mDivergenceFBO = PingPongFBO(fmtR, mFluidResolution, 2);
 }
 
 
@@ -70,6 +78,7 @@ void Fluid::update(float dt, gl::GlslProgRef forces, gl::TextureRef smoke, float
 	computeDivergence();
 	solvePressure();
 	subtractPressure();
+	computeVorticity();
 }
 
 void Fluid::advect(float dt, PingPongFBO* value, float dissipation) 
@@ -175,4 +184,19 @@ void Fluid::subtractPressure()
 	mSubtractPressureShader->uniform("tex_pressure", PRESSURE_POINTER);
 
 	mVelocityFBO.render(mSubtractPressureShader);
+}
+
+void Fluid::computeVorticity()
+{
+	gl::ScopedTextureBind scopeVel(mVelocityFBO.getTexture(), VELOCITY_POINTER);
+	mVorticityShader->uniform("tex_velocity", VELOCITY_POINTER);
+
+	mVorticityFBO.render(mVorticityShader);
+
+	mVorticityShader->uniform("tex_velocity", VELOCITY_POINTER);
+
+	gl::ScopedTextureBind scopeVort(mVorticityFBO.getTexture(), PRESSURE_POINTER);
+	mVorticityForcesShader->uniform("tex_vorticity", PRESSURE_POINTER);
+
+	mVelocityFBO.render(mVorticityForcesShader);
 }

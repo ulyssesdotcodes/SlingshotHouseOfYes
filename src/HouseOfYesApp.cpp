@@ -3,6 +3,7 @@
 #include "cinder/gl/gl.h"
 
 #include "Blank.h"
+#include "BlueLightCue.h"
 #include "FireCue.h"
 #include "Nightlife.h"
 #include "OscController.h"
@@ -47,7 +48,8 @@ void HouseOfYesApp::setup()
 	mCues.insert(make_pair("Nightlife", std::make_shared<Nightlife>(mWorld)));
 	mCues.insert(make_pair("Fire", std::make_shared<FireCue>(mWorld)));
 	mCues.insert(make_pair("Smoke", std::make_shared<SmokeCue>(mWorld)));
-	mCurrentCue = mCues["Smoke"];
+	mCues.insert(make_pair("BlueLight", std::make_shared<BlueLightCue>(mWorld)));
+	mCurrentCue = mCues["BlueLight"];
 
 	// HoY image
 	//mTexture = gl::Texture::create(loadImage(loadAsset("Images/HOYSplineMask.png")));

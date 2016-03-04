@@ -17,10 +17,10 @@ void main() {
 	float B = texture2D(tex_pressure, pos + vec2(0, -1) / i_resolution.xy).y;
 	float C = texture2D(tex_pressure, pos ).y;
 
-	vec4 oL = texture2D(tex_obstacles, pos + vec2(-1, 0) / i_resolution.xy);
-	vec4 oT = texture2D(tex_obstacles, pos + vec2(0, 1) / i_resolution.xy);
-	vec4 oR = texture2D(tex_obstacles, pos + vec2(1, 0) / i_resolution.xy);
-	vec4 oB = texture2D(tex_obstacles, pos + vec2(0, -1) / i_resolution.xy);
+	//vec4 oL = texture2D(tex_obstacles, pos + vec2(-1, 0) / i_resolution.xy);
+	//vec4 oT = texture2D(tex_obstacles, pos + vec2(0, 1) / i_resolution.xy);
+	//vec4 oR = texture2D(tex_obstacles, pos + vec2(1, 0) / i_resolution.xy);
+	//vec4 oB = texture2D(tex_obstacles, pos + vec2(0, -1) / i_resolution.xy);
 
 	vec2 obsV = vec2(0);
 	vec2 vMask = vec2(1);
@@ -32,5 +32,5 @@ void main() {
 	
 	vec2 oldVel = texture2D(tex_velocity, pos).xy;
 	vec2 vel = oldVel - 0.5 * vec2(R-L, T-B);
-	fragColor = vec4(vMask * vel + obsV, 0, 1);
+	fragColor = vec4(vMask * vel, 0, 1);
 }

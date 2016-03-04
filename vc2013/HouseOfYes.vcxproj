@@ -205,19 +205,25 @@
     <ResourceCompile Include="Resources.rc" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\assets\Shaders\2D\blue_light_draw.frag" />
+    <None Include="..\assets\Shaders\2D\blue_light_drop.frag" />
     <None Include="..\assets\Shaders\fade.frag" />
     <None Include="..\assets\Shaders\fluid\2D\advect.frag" />
     <None Include="..\assets\Shaders\fluid\2D\advectR.frag" />
     <None Include="..\assets\Shaders\fluid\2D\advect_maccormack.frag" />
+    <None Include="..\assets\Shaders\fluid\2D\blue_light_forces.frag" />
     <None Include="..\assets\Shaders\fluid\2D\fire_draw.frag" />
     <None Include="..\assets\Shaders\fluid\2D\fire_drop.frag" />
     <None Include="..\assets\Shaders\fluid\2D\fire_drop_forces.frag" />
+    <None Include="..\assets\Shaders\Fluid\2D\fire_drop_map.frag" />
     <None Include="..\assets\Shaders\fluid\2D\smoke_draw.frag" />
     <None Include="..\assets\Shaders\fluid\2D\smoke_drop.frag" />
     <None Include="..\assets\Shaders\fluid\2D\smoke_drop_forces.frag" />
     <None Include="..\assets\Shaders\fluid\2D\solve_pressure.frag" />
     <None Include="..\assets\Shaders\fluid\2D\subtract_pressure.frag" />
     <None Include="..\assets\Shaders\fluid\2D\velocity_divergence.frag" />
+    <None Include="..\assets\Shaders\Fluid\2D\vorticity.frag" />
+    <None Include="..\assets\Shaders\Fluid\2D\vorticity_forces.frag" />
     <None Include="..\assets\Shaders\fluid\advect.frag" />
     <None Include="..\assets\Shaders\fluid\advectR.frag" />
     <None Include="..\assets\Shaders\fluid\advect_maccormack.frag" />
@@ -247,6 +253,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\Blank.cpp" />
+    <ClCompile Include="..\src\BlueLightCue.cpp" />
     <ClCompile Include="..\src\Cue.cpp" />
     <ClCompile Include="..\src\Fire3DCue.cpp" />
     <ClCompile Include="..\src\FireCue.cpp" />
@@ -296,6 +303,7 @@
     <ClInclude Include="..\..\Cinder\blocks\Cinder-WMFVideo\src\presenter\common\trace.h" />
     <ClInclude Include="..\..\Cinder\blocks\OSC\src\Osc.h" />
     <ClInclude Include="..\src\Blank.h" />
+    <ClInclude Include="..\src\BlueLightCue.h" />
     <ClInclude Include="..\src\Cue.h" />
     <ClInclude Include="..\src\Fire3DCue.h" />
     <ClInclude Include="..\src\FireCue.h" />

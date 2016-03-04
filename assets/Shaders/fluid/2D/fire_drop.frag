@@ -122,17 +122,11 @@ void main() {
 
 	vec3 hoy = texture2D(tex_hoy, pos).xyz;
 
-	vec2 mSDP = vec2(i_smokeDropPos.x, 1.0 - i_smokeDropPos.y);
-
-	vec2 dropDistance = pos - mSDP;
-
-	//float density = max(0, 0.008 - dot(dropDistance, dropDistance)) * i_dt * 0.25;//* max(i_beat, 0.125) * pow(i_volume, 0.5);
-
 	float density = hoy.b * 0.08;
 
 	density *= mix(0.4, 2.0, cnoise(vec3(pos * 128, i_time)));
 
-	float temperature = current.y + density * 4096;
+	float temperature = (current.x + density) * 4096;
 
 	float hue = current.z;
 	if(density > 0.0001) {

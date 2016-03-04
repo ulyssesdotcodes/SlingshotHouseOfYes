@@ -44,6 +44,11 @@ SmokeCue::SmokeCue(const World & world)
 
 	mObstacles = gl::Texture::create(loadImage(app::loadAsset("Images/HOYObstacle.png")));
 
+	world.oscController->subscribe("/hoy/cues/smoke/darkness/value", [=](const osc::Message message) {
+		mSmokeDrawShader->uniform("i_darkness", message.getArgFloat(0));
+		mForcesShader->uniform("i_darkness", message.getArgFloat(0));
+	});
+
 	//mBatch = gl::VertBatch::create();
 	//mBatch->vertex(vec3(0));
 }

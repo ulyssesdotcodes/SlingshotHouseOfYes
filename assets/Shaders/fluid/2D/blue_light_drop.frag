@@ -8,6 +8,9 @@ uniform float i_volume;
 uniform float i_beat;
 uniform float i_dt;
 uniform float i_time;
+uniform vec2 i_dropPos;
+uniform float i_dropSize;
+uniform float i_mult;
 
 out vec4 fragColor;
 
@@ -115,29 +118,71 @@ float cnoise(vec3 P)
   return 2.2 * n_xyz;
 }
 
+float mod289(float x){return x - floor(x * (1.0 / 289.0)) * 289.0;}
+vec4 perm(vec4 x){return mod289(((x * 34.0) + 1.0) * x);}
+
+float noise(vec3 p){
+    vec3 a = floor(p);
+    vec3 d = p - a;
+    d = d * d * (3.0 - 2.0 * d);
+
+    vec4 b = a.xxyy + vec4(0.0, 1.0, 0.0, 1.0);
+    vec4 k1 = perm(b.xyxy);
+    vec4 k2 = perm(k1.xyxy + b.zzww);
+
+    vec4 c = k2 + a.zzzz;
+    vec4 k3 = perm(c);
+    vec4 k4 = perm(c + 1.0);
+
+    vec4 o1 = fract(k3 * (1.0 / 41.0));
+    vec4 o2 = fract(k4 * (1.0 / 41.0));
+
+    vec4 o3 = o2 * d.z + o1 * (1.0 - d.z);
+    vec2 o4 = o3.yw * d.x + o3.xz * (1.0 - d.x);
+
+    return o4.y * d.y + o4.x * (1.0 - d.y);
+}
+
+float fbm(vec3 x) {
+    float v = 0.0;
+    float a = 0.5;
+    vec3 shift = vec3(100);
+    for (int i = 0; i < 8; ++i) {
+        v += a * noise(x);
+        x = x * 2.0 + shift;
+        a *= 0.5;
+    }
+    return v;
+}
+
 void main() {
 	vec2 pos = gl_FragCoord.xy / i_resolution.xy;
 	vec3 current = texture2D(tex_prev, pos).xyz;
 
-	vec4 obstacles = texture2D(tex_obstacles, pos);
+	//vec4 obstacles = texture2D(tex_obstacles, pos);
 
 	//if(obstacles.x > 0) {
 	//	fragColor = vec4(0);
 	//	return;
 	//}
 
-	vec2 mSDP = vec2(0.1, 1.0 - 0.8);
+	float angle = fbm(vec3(pos, i_time * 0.25)) * 15;
+	vec2 vel = vec2(cos(angle), sin(angle));
+	vec2 dropPos = i_dropPos + vel * 0.05;
 
-	vec2 dropDistance = pos - mSDP;
+	vec2 v = pos - vec2(dropPos.x + cos(i_time) * 0.02, dropPos.y);
+	float dropDistance = dot(v, v);
+	
 
-	//float density = max(0, 0.008 - dot(dropDistance, dropDistance)) * i_dt * max(i_beat, 0.125) * 2.0;
+	float density = max(0, (i_dropSize - dropDistance) / i_dropSize) * i_dt * i_mult;
 	//float density = max(0, 0.004 - dot(dropDistance, dropDistance)) * i_dt * 1024;
+	density *= noise(vec3(pos, i_time));
 
 	//density *= mix(0.6, 1.0, rand(vec2(pos.x * pos.y, cos(i_dt))));
 
-	float density = i_dt * mix(0.0, 8.0, cnoise(vec3(i_time * 0.125, pos * 8)));
+	//float density = i_dt * mix(0.0, 8.0, cnoise(vec3(i_time * 0.125, pos * 8)));
 
-	float temp = current.y + i_dt * (pos.y) * 0.5;
+	float temp = current.y + density * 32;
 
-	fragColor = vec4(current.x + density, temp, 0, 1);
+	fragColor = vec4(current.x + density, temp, 0.5, 1);
 }
