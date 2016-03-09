@@ -82,6 +82,7 @@ void BlueLightCue::update(const World & world)
 	mSmokeDropShader->uniform("tex_prev", 0);
 	mSmokeDropShader->uniform("i_dt", world.dt);
 	mSmokeDropShader->uniform("i_time", world.time);
+	mSmokeDropShader->uniform("i_volume", world.audioSource->getVolume());
 	mSmokeField.render(mSmokeDropShader);
 }
 

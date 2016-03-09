@@ -54,31 +54,35 @@ struct ParticleParams
 {
 	ParticleParams( float noiseSize )
 		: attractors{ 
-			ci::vec4(0.0f, 1.4f, 0.0f, 0.002f), 
-			ci::vec4(0.0f, 1.4f, 0.0f, 0.002f), 
-			ci::vec4(2.0f, 0.4f, 0.0f, 0.004f), 
-			ci::vec4(-2.0f, 0.4f, 0.0f, 0.004f), 
-			ci::vec4(2.9f, -1.2f, 0.0f, 0.006f),
-			ci::vec4(-2.9f, -1.2f, 0.0f, 0.006f),
-			ci::vec4(1.9f, -1.9f, 0.0f, 0.006f),
-			ci::vec4(-1.9f, -1.9f, 0.0f, 0.006f)
+			ci::vec4(0.0f, 0.7f, 0.0f, 0.002f), 
+			//ci::vec4(0.0f, 1.4f, 0.0f, 0.002f), 
+			//ci::vec4(2.0f, 0.4f, 0.0f, 0.004f), 
+			//ci::vec4(-2.0f, 0.4f, 0.0f, 0.004f), 
+			//ci::vec4(2.9f, -1.2f, 0.0f, 0.006f),
+			//ci::vec4(-2.9f, -1.2f, 0.0f, 0.006f),
+			//ci::vec4(1.9f, -1.9f, 0.0f, 0.006f),
+			//ci::vec4(-1.9f, -1.9f, 0.0f, 0.006f),
+			//ci::vec4(0.0f, 1.3f, 0.0f, 0.006f),
+			ci::vec4(0.0f, 1.3f, 0.0f, 0.003f)
 		},
 
 		start(ci::vec3(0.0f, -1.3f, 0.0f)),
 		noiseFreq( 10.0f ),
 		noiseStrength( 0.001f ),
 		invNoiseSize( 1.0f / noiseSize ),
-		time(0.0f)
+		time(0.0f),
+		end(false)
 	{
 	}
 
-	ci::vec4  attractors[8];
+	ci::vec4  attractors[2];
 	ci::vec3 start;
 	float numParticles;
 	float noiseFreq;
 	float noiseStrength;
 	float invNoiseSize;
 	float time;
+	bool end;
 };
 
 //! This sample was ported from https://github.com/NVIDIAGameWorks/OpenGLSamples/tree/master/samples/es3aep-kepler/ComputeParticles
@@ -96,6 +100,12 @@ class ParticleSystem {
 	void setupNoiseTexture3D();
 	void setStartPositionX(float x);
 	void setStartPositionY(float y);
+	void setMiddlePositionX(float x);
+	void setMiddlePositionY(float y);
+	void setEndPositionX(float x);
+	void setEndPositionY(float y);
+	void animate(bool animate);
+	void end();
 
 	enum { WORK_GROUP_SIZE = 128, NUM_PARTICLES = 1 << 20 };
 	
@@ -119,5 +129,6 @@ class ParticleSystem {
 	bool mEnableAttractor;
 	bool mAnimate;
 	bool mReset;
+	bool mPause;
 	float mStartTime;
 };

@@ -43,13 +43,15 @@ void HouseOfYesApp::setup()
 	mWorld.windowSize = app::getWindowSize();
 	mWorld.time = 0;
 	mWorld.dt = 0;
+	mWorld.audioSource = std::make_shared<AudioSource>();
+	mWorld.audioSource->setup();
 
 	mCues.insert(make_pair("Blank", std::make_shared<Blank>()));
 	mCues.insert(make_pair("Nightlife", std::make_shared<Nightlife>(mWorld)));
 	mCues.insert(make_pair("Fire", std::make_shared<FireCue>(mWorld)));
 	mCues.insert(make_pair("Smoke", std::make_shared<SmokeCue>(mWorld)));
 	mCues.insert(make_pair("BlueLight", std::make_shared<BlueLightCue>(mWorld)));
-	mCurrentCue = mCues["BlueLight"];
+	mCurrentCue = mCues["Nightlife"];
 
 	// HoY image
 	//mTexture = gl::Texture::create(loadImage(loadAsset("Images/HOYSplineMask.png")));
@@ -82,12 +84,12 @@ void HouseOfYesApp::draw()
 
 	mCurrentCue->draw(mWorld);
 
-	gl::pushMatrices();
-	gl::setMatricesWindow(getWindowSize());
-	//Rectf destRect = Rectf( mTexture->getBounds() ).getCenteredFit( getWindowBounds(), true );
-	gl::drawString("Framerate: " + std::to_string(getAverageFps()), vec2(10));
-	//gl::draw( mTexture, destRect );
-	gl::popMatrices();
+	//gl::pushMatrices();
+	//gl::setMatricesWindow(getWindowSize());
+	////Rectf destRect = Rectf( mTexture->getBounds() ).getCenteredFit( getWindowBounds(), true );
+	//gl::drawString("Framerate: " + std::to_string(getAverageFps()), vec2(10));
+	////gl::draw( mTexture, destRect );
+	//gl::popMatrices();
 	
 }
 

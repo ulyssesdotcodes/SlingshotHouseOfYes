@@ -201,6 +201,9 @@
     <ClCompile Include="..\src\BlueLightCue.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\AudioSource.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\Resources.h">
@@ -246,6 +249,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\src\BlueLightCue.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\AudioSource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -369,13 +375,16 @@
     <None Include="..\assets\Shaders\Fluid\2D\fire_drop_map.frag">
       <Filter>Shaders\Fluid\2D</Filter>
     </None>
-    <None Include="..\assets\Shaders\2D\blue_light_drop.frag">
-      <Filter>Shaders\Fluid\2D</Filter>
-    </None>
-    <None Include="..\assets\Shaders\2D\blue_light_draw.frag">
-      <Filter>Shaders\Fluid\2D</Filter>
-    </None>
     <None Include="..\assets\Shaders\fluid\2D\blue_light_forces.frag">
+      <Filter>Shaders\Fluid\2D</Filter>
+    </None>
+    <None Include="..\assets\Shaders\blur.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\assets\Shaders\fluid\2D\blue_light_draw.frag">
+      <Filter>Shaders\Fluid\2D</Filter>
+    </None>
+    <None Include="..\assets\Shaders\fluid\2D\blue_light_drop.frag">
       <Filter>Shaders\Fluid\2D</Filter>
     </None>
   </ItemGroup>

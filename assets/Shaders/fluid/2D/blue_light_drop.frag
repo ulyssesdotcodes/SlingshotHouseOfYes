@@ -174,7 +174,7 @@ void main() {
 	float dropDistance = dot(v, v);
 	
 
-	float density = max(0, (i_dropSize - dropDistance) / i_dropSize) * i_dt * i_mult;
+	float density = max(0, ((i_dropSize * (0.5 + i_volume)) - dropDistance) / i_dropSize) * i_dt * i_mult * (0.5 + i_volume);
 	//float density = max(0, 0.004 - dot(dropDistance, dropDistance)) * i_dt * 1024;
 	density *= noise(vec3(pos, i_time));
 

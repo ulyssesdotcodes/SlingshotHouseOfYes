@@ -205,12 +205,13 @@
     <ResourceCompile Include="Resources.rc" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\assets\Shaders\2D\blue_light_draw.frag" />
-    <None Include="..\assets\Shaders\2D\blue_light_drop.frag" />
+    <None Include="..\assets\Shaders\blur.frag" />
     <None Include="..\assets\Shaders\fade.frag" />
     <None Include="..\assets\Shaders\fluid\2D\advect.frag" />
     <None Include="..\assets\Shaders\fluid\2D\advectR.frag" />
     <None Include="..\assets\Shaders\fluid\2D\advect_maccormack.frag" />
+    <None Include="..\assets\Shaders\fluid\2D\blue_light_draw.frag" />
+    <None Include="..\assets\Shaders\fluid\2D\blue_light_drop.frag" />
     <None Include="..\assets\Shaders\fluid\2D\blue_light_forces.frag" />
     <None Include="..\assets\Shaders\fluid\2D\fire_draw.frag" />
     <None Include="..\assets\Shaders\fluid\2D\fire_drop.frag" />
@@ -252,6 +253,7 @@
     <Image Include="..\assets\Images\HOYSplineMask.jpg" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\src\AudioSource.cpp" />
     <ClCompile Include="..\src\Blank.cpp" />
     <ClCompile Include="..\src\BlueLightCue.cpp" />
     <ClCompile Include="..\src\Cue.cpp" />
@@ -302,6 +304,7 @@
     <ClInclude Include="..\..\Cinder\blocks\Cinder-WMFVideo\src\presenter\common\TinyMap.h" />
     <ClInclude Include="..\..\Cinder\blocks\Cinder-WMFVideo\src\presenter\common\trace.h" />
     <ClInclude Include="..\..\Cinder\blocks\OSC\src\Osc.h" />
+    <ClInclude Include="..\src\AudioSource.h" />
     <ClInclude Include="..\src\Blank.h" />
     <ClInclude Include="..\src\BlueLightCue.h" />
     <ClInclude Include="..\src\Cue.h" />

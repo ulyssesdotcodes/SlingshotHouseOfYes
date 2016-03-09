@@ -129,43 +129,46 @@ void ParticleSystem::update()
 
 void ParticleSystem::draw()
 {
-	// CI_CHECK_GL();
-	gl::clear( Color( 0.0f, 0.0f, 0.0f) );
+	if(mAnimate) {
+		// CI_CHECK_GL();
+		gl::clear( Color( 0.0f, 0.0f, 0.0f) );
 
-	if( mReset ) {
-		mReset = false;
-		resetParticleSystem();
+		if( mReset ) {
+			mReset = false;
+			resetParticleSystem();
+		}
+
+		gl::setMatrices( mCam );
+
+		// draw particles
+		gl::ScopedGlslProg scopedRenderProg( mRenderProg );
+		mRenderProg->uniform( "spriteSize", mSpriteSize );
+
+		gl::context()->setDefaultShaderVars();
+
+		gl::enableAdditiveBlending();
+
+		gl::disable( GL_DEPTH_TEST );
+		gl::disable( GL_CULL_FACE );
+
+		{
+			//ScopedBufferBase scopedPosBuffer( mPos, 1 );
+			gl::bindBufferBase( mPos->getTarget(), 1, mPos );
+			gl::ScopedBuffer scopedIndicex( mIndicesVbo );
+			gl::drawElements( GL_TRIANGLES, NUM_PARTICLES * 6, GL_UNSIGNED_INT, 0 );
+		}
+		
+		gl::disableAlphaBlending();
 	}
-
-	gl::setMatrices( mCam );
-
-	// draw particles
-	gl::ScopedGlslProg scopedRenderProg( mRenderProg );
-	mRenderProg->uniform( "spriteSize", mSpriteSize );
-
-	gl::context()->setDefaultShaderVars();
-
-	gl::enableAdditiveBlending();
-
-	gl::disable( GL_DEPTH_TEST );
-	gl::disable( GL_CULL_FACE );
-
-	{
-		//ScopedBufferBase scopedPosBuffer( mPos, 1 );
-		gl::bindBufferBase( mPos->getTarget(), 1, mPos );
-		gl::ScopedBuffer scopedIndicex( mIndicesVbo );
-		gl::drawElements( GL_TRIANGLES, NUM_PARTICLES * 6, GL_UNSIGNED_INT, 0 );
-	}
-	
-	gl::disableAlphaBlending();
 }
 
 void ParticleSystem::resetParticleSystem()
 {
+	mParticleParams.end = false;
 	float size = 0.5f;
 	vec4 *pos = reinterpret_cast<vec4*>( mPos->map( GL_WRITE_ONLY ) );
 	for( size_t i = 0; i < NUM_PARTICLES; ++i ) {
-		pos[i] = vec4( sfrand() * size, sfrand() * size, sfrand() * size, 1.0f );
+		pos[i] = vec4(0.0f, 0.0f, 0.0f, 0.0f);
 	}
 	mPos->unmap();
 
@@ -177,7 +180,7 @@ void ParticleSystem::resetParticleSystem()
 
 	int *attractorIndex = reinterpret_cast<int*>( mAttractorIndex->map( GL_WRITE_ONLY ) );
 	for( size_t i = 0; i < NUM_PARTICLES; ++i ) {
-		attractorIndex[i] = glm::round(Rand::randFloat());
+		attractorIndex[i] = 0;
 	}
 	mAttractorIndex->unmap();
 
@@ -187,7 +190,9 @@ void ParticleSystem::resetParticleSystem()
 void ParticleSystem::updateParticleSystem()
 {
 	mParticleParams.numParticles = NUM_PARTICLES;
-	mParticleParams.time = app::getElapsedSeconds() - mStartTime;
+	if(!mParticleParams.end) {
+		mParticleParams.time = app::getElapsedSeconds() - mStartTime;
+	}
 
 	// Invoke the compute shader to integrate the particles
 	gl::ScopedGlslProg prog( mUpdateProg );
@@ -248,4 +253,38 @@ void ParticleSystem::setStartPositionX(float x)
 void ParticleSystem::setStartPositionY(float y)
 {
 	mParticleParams.start.y = y;
+}
+
+void ParticleSystem::setEndPositionX(float x)
+{
+	mParticleParams.attractors[1].x = x;
+	//mParticleParams.attractors[9].x = x;
+}
+
+void ParticleSystem::setEndPositionY(float y)
+{
+	mParticleParams.attractors[1].y = y;
+	//mParticleParams.attractors[9].y = y;
+}
+
+void ParticleSystem::animate(bool animate)
+{
+	mAnimate = animate;
+}
+
+void ParticleSystem::end()
+{
+	mParticleParams.end = true;
+}
+
+void ParticleSystem::setMiddlePositionX(float x)
+{
+	mParticleParams.attractors[0].x = x;
+	//mParticleParams.attractors[9].x = x;
+}
+
+void ParticleSystem::setMiddlePositionY(float y)
+{
+	mParticleParams.attractors[0].y = y;
+	//mParticleParams.attractors[9].y = y;
 }

@@ -41,13 +41,14 @@
 
 layout( std140, binding = 0 ) uniform ParticleParams
 {
-    uniform vec4[8]	attractors;
+    uniform vec4[2]	attractors;
 	uniform vec3	start;
     uniform float	numParticles;
     uniform float	noiseFreq;
     uniform float	noiseStrength;
     uniform float	invNoiseSize;
 	uniform float	time;
+	uniform bool	end;
 };
 
 uniform sampler3D	noiseTex3D;
@@ -130,14 +131,20 @@ void main()
 	noiseStart.y = abs(noiseStart.y);
 	pos[i] = vec4( mix(noiseStart + start, p, startedFloored), started);
 	vel[i] = vec4( mix(noiseStart, v, startedFloored), 0.0 );
-	vec3 av = pos[i].xyz - noiseA; 
+	vec3 av = pos[i].xyz - noiseA;
 	if(dot(av, av) < 0.01) {
-		if(index[i] / 2 == 3) {
-			index[i] = index[i] % 2;
-			pos[i] = vec4(noiseStart + start, started);
+		if(index[i]== 1) {
+			if(end) {
+				pos[i] = vec4(0);
+				vel[i] = vec4(0);
+			}
+			else {
+				index[i] = 0;
+				pos[i] = vec4(noiseStart + start, started);
+			}
 		}
 		else {
-			index[i] = index[i] + 2;
+			index[i] += 1;
 		}
 	}
 }

@@ -26,11 +26,36 @@ Nightlife::Nightlife(const World& world)
 	mParticleRender = gl::Fbo::create(app::getWindowSize().x, app::getWindowSize().y, fmt);
 	mPingPongFBO = PingPongFBO(fmt, ivec2(app::getWindowSize().x, app::getWindowSize().y) , 2);
 
-	world.oscController->subscribe("/hoy/cues/nightlife/x/value", [=](const osc::Message message) {
+	world.oscController->subscribe("/hoy/cues/nightlife/startx/value", [=](const osc::Message message) {
 			mParticleSystem.setStartPositionX(message.getArgFloat(0));
 	});
-	world.oscController->subscribe("/hoy/cues/nightlife/y/value", [=](const osc::Message message) {
+
+	world.oscController->subscribe("/hoy/cues/nightlife/starty/value", [=](const osc::Message message) {
 			mParticleSystem.setStartPositionY(message.getArgFloat(0));
+	});
+
+	world.oscController->subscribe("/hoy/cues/nightlife/endx/value", [=](const osc::Message message) {
+			mParticleSystem.setEndPositionX(message.getArgFloat(0));
+	});
+	world.oscController->subscribe("/hoy/cues/nightlife/endy/value", [=](const osc::Message message) {
+			mParticleSystem.setEndPositionY(message.getArgFloat(0));
+	});
+
+	world.oscController->subscribe("/hoy/cues/nightlife/midx/value", [=](const osc::Message message) {
+			mParticleSystem.setMiddlePositionX(message.getArgFloat(0));
+	});
+	world.oscController->subscribe("/hoy/cues/nightlife/midy/value", [=](const osc::Message message) {
+			mParticleSystem.setMiddlePositionY(message.getArgFloat(0));
+	});
+	world.oscController->subscribe("/hoy/cues/nightlife/reset/value", [=](const osc::Message message) {
+		mParticleSystem.resetParticleSystem();
+	});
+	world.oscController->subscribe("/hoy/cues/nightlife/animate/value", [=](const osc::Message message) {
+		mParticleSystem.animate(message.getArgFloat(0) == 1);
+	});
+
+	world.oscController->subscribe("/hoy/cues/nightlife/end/value", [=](const osc::Message message) {
+		mParticleSystem.end();
 	});
 }
 
